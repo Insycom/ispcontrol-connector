@@ -1,0 +1,25 @@
+# variables sensibles
+.env
+.env.local
+
+# node
+node_modules/
+
+# runtime and build artifacts
+.runtime/
+.next/
+dist/
+build/
+coverage/
+
+# docker volumes
+data-app
+data-db
+*/data/
+
+# logs and local files
+*.log
+.DS_Store
+
+# database files
+packages/db/prisma/*.db

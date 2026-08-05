@@ -1,0 +1,27 @@
+{
+  "name": "ispcontrol",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Control multi-tenant de servicios y servidores para ISP",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "db:generate": "prisma generate --schema packages/db/prisma/schema.prisma",
+    "db:format": "prisma format --schema packages/db/prisma/schema.prisma",
+    "db:migrate": "prisma migrate dev --schema packages/db/prisma/schema.prisma",
+    "db:studio": "prisma studio --schema packages/db/prisma/schema.prisma"
+  },
+  "devDependencies": {
+    "prisma": "^6.12.0"
+  },
+  "overrides": {
+    "brace-expansion": "5.0.8",
+    "postcss": "8.5.23",
+    "sharp": "0.35.3"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}
