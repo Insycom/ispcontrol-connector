@@ -13,7 +13,7 @@ RUN apk add --no-cache iputils su-exec
 RUN addgroup -S ispcontrol && adduser -S ispcontrol -G ispcontrol
 RUN mkdir -p /var/lib/ispcontrol && chown ispcontrol:ispcontrol /var/lib/ispcontrol
 COPY --from=build --chown=ispcontrol:ispcontrol /app/dist ./dist
-COPY entrypoint.sh /entrypoint.sh
+COPY apps/connector/entrypoint.sh /entrypoint.sh
 RUN chmod 755 /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 VOLUME ["/var/lib/ispcontrol"]
