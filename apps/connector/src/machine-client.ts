@@ -161,10 +161,18 @@ export class MachineClient {
 
 function joinApiUrl(baseUrl: URL, path: string): URL {
   const url = new URL(baseUrl.toString());
-  const basePath = url.pathname.replace(/\/$/, "");
+  const basePath = stripApiPrefix(url.pathname);
   const requestPath = path.replace(/^\//, "");
   url.pathname = `${basePath}/${requestPath}`.replace(/\/{2,}/g, "/");
   return url;
+}
+
+function stripApiPrefix(pathname: string): string {
+  const normalized = pathname.replace(/\/$/, "");
+  if (normalized.endsWith("/api/v1")) {
+    return normalized.slice(0, normalized.length - "/api/v1".length);
+  }
+  return normalized;
 }
 
 async function parseJsonOrThrow(response: Response): Promise<unknown> {
