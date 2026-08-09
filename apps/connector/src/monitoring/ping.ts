@@ -12,19 +12,21 @@ export type PingResult = {
   resolvedAddress: string;
   startedAt: string;
   completedAt: string;
+  rawOutput: string;
 };
 
 export function ping(
   address: string,
   count: number,
   timeoutMs: number,
+  packetSize = 56,
 ): Promise<PingResult> {
   validateTarget(address);
   const startedAt = new Date().toISOString();
   return new Promise((resolve, reject) => {
     const process = spawn(
       "ping",
-      ["-n", "-c", String(count), "-W", String(Math.ceil(timeoutMs / 1000)), address],
+      ["-n", "-c", String(count), "-W", String(Math.ceil(timeoutMs / 1000)), "-s", String(packetSize), address],
       { stdio: ["ignore", "pipe", "pipe"] },
     );
     let output = "";
@@ -65,6 +67,7 @@ export function parsePing(
     resolvedAddress: address,
     startedAt,
     completedAt: new Date().toISOString(),
+    rawOutput: output,
   };
 }
 

@@ -6,6 +6,7 @@ import {
   type OutboxEvent,
 } from "../persistence/database.js";
 import { ping } from "./ping.js";
+import { traceroute } from "./traceroute.js";
 import { transitionDevice } from "./state-machine.js";
 import { RouterOsApiAdapter } from "../mikrotik/routeros-api-adapter.js";
 import {
@@ -155,25 +156,49 @@ export class MonitoringService {
         if (new Date(job.expiresAt) <= new Date()) continue;
         await this.client.startJob(job.id);
         try {
+          const payload = job.payload as {
+            target?: { address?: string };
+            count?: number;
+            timeoutMs?: number;
+            packetSize?: number;
+            maxHops?: number;
+            periodStartedAt?: string;
+            periodEndedAt?: string;
+            deviceIds?: string[];
+            router?: {
+              host: string;
+              port: number;
+              tls: boolean;
+              username: string;
+              password: string;
+            };
+          };
           const result =
-            ["monitoring.ping", "network.ping_server"].includes(job.type) &&
-            job.payload.target?.address
+            ["monitoring.ping", "network.ping_server", "network.diagnostic_ping"].includes(job.type) &&
+            payload.target?.address
               ? await ping(
-                  job.payload.target.address,
-                  job.payload.count ?? 5,
-                  job.payload.timeoutMs ?? 1_000,
+                  payload.target.address,
+                  payload.count ?? 5,
+                  payload.timeoutMs ?? 1_000,
+                  payload.packetSize ?? 56,
                 )
-              : job.type === "mikrotik.test_connection" && job.payload.router
-                ? await testMikrotik(job.payload.router)
-              : job.type === "mikrotik.apply_service" && job.payload.router
+              : job.type === "network.traceroute" && payload.target?.address
+                ? await traceroute(
+                    payload.target.address,
+                    payload.maxHops ?? 20,
+                    payload.packetSize ?? 56,
+                  )
+              : job.type === "mikrotik.test_connection" && payload.router
+                ? await testMikrotik(payload.router)
+              : job.type === "mikrotik.apply_service" && payload.router
                   ? await provisionService(job.payload as unknown as ServiceProvisionPayload)
                 : job.type === "monitoring.request_backfill" &&
-                    job.payload.periodStartedAt &&
-                    job.payload.periodEndedAt
+                    payload.periodStartedAt &&
+                    payload.periodEndedAt
                   ? await this.sendBackfill(
-                      job.payload.periodStartedAt,
-                      job.payload.periodEndedAt,
-                      job.payload.deviceIds,
+                      payload.periodStartedAt,
+                      payload.periodEndedAt,
+                      payload.deviceIds,
                     )
                 : (() => {
                     throw new Error("Unsupported job type");

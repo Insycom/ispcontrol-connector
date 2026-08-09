@@ -28,6 +28,31 @@ export type ConnectorCommand = {
   };
 };
 
+export type LegacyConnectorJob = {
+  id: string;
+  type: string;
+  schemaVersion: number;
+  payload: {
+    target?: { deviceId?: string; address?: string };
+    count?: number;
+    timeoutMs?: number;
+    packetSize?: number;
+    intervalMs?: number;
+    serverId?: string;
+    router?: {
+      host: string;
+      port: number;
+      tls: boolean;
+      username: string;
+      password: string;
+    };
+    periodStartedAt?: string;
+    periodEndedAt?: string;
+    deviceIds?: string[];
+  };
+  expiresAt: string;
+};
+
 export class ConnectorApiClient {
   constructor(
     private readonly apiUrl: URL,
@@ -92,6 +117,71 @@ body: JSON.stringify({
       },
     );
     if (!response.ok) throw new Error(`Result API returned ${response.status}`);
+  }
+
+  async claimJobs(limit = 5): Promise<LegacyConnectorJob[]> {
+    const response = await fetch(
+      new URL("/api/v1/connector/v1/jobs/claim", this.apiUrl),
+      {
+        method: "POST",
+        redirect: "error",
+        headers: {
+          authorization: `Bearer ${this.identity.apiKey}`,
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ limit }),
+        signal: AbortSignal.timeout(15_000),
+      },
+    );
+    if (!response.ok) throw new Error(`Job API returned ${response.status}`);
+    return (await parseJsonOrNull<LegacyConnectorJob[]>(response)) ?? [];
+  }
+
+  async startJob(jobId: string): Promise<void> {
+    const response = await fetch(
+      new URL(`/api/v1/connector/v1/jobs/${encodeURIComponent(jobId)}/start`, this.apiUrl),
+      {
+        method: "POST",
+        redirect: "error",
+        headers: { authorization: `Bearer ${this.identity.apiKey}` },
+        signal: AbortSignal.timeout(10_000),
+      },
+    );
+    if (!response.ok) throw new Error(`Job start API returned ${response.status}`);
+  }
+
+  async completeJob(jobId: string, result: Record<string, unknown>): Promise<void> {
+    const response = await fetch(
+      new URL(`/api/v1/connector/v1/jobs/${encodeURIComponent(jobId)}/complete`, this.apiUrl),
+      {
+        method: "POST",
+        redirect: "error",
+        headers: {
+          authorization: `Bearer ${this.identity.apiKey}`,
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ result }),
+        signal: AbortSignal.timeout(10_000),
+      },
+    );
+    if (!response.ok) throw new Error(`Job complete API returned ${response.status}`);
+  }
+
+  async failJob(jobId: string, message: string): Promise<void> {
+    const response = await fetch(
+      new URL(`/api/v1/connector/v1/jobs/${encodeURIComponent(jobId)}/fail`, this.apiUrl),
+      {
+        method: "POST",
+        redirect: "error",
+        headers: {
+          authorization: `Bearer ${this.identity.apiKey}`,
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ code: "EXECUTION_FAILED", message, retryable: false }),
+        signal: AbortSignal.timeout(10_000),
+      },
+    );
+    if (!response.ok) throw new Error(`Job fail API returned ${response.status}`);
   }
 }
 

@@ -1,5 +1,16 @@
-import type { ConnectorApiClient, ConnectorCommand } from "./api-client.js";
+import type {
+  ConnectorApiClient,
+  ConnectorCommand,
+  LegacyConnectorJob,
+} from "./api-client.js";
 import { RouterOsClient } from "./routeros-client.js";
+import { ping } from "./monitoring/ping.js";
+import { traceroute } from "./monitoring/traceroute.js";
+import { RouterOsApiAdapter } from "./mikrotik/routeros-api-adapter.js";
+import {
+  provisionService,
+  type ServiceProvisionPayload,
+} from "./mikrotik/service-provisioner.js";
 
 export class CommandWorker {
   private timer: NodeJS.Timeout | undefined;
@@ -24,13 +35,26 @@ export class CommandWorker {
     this.running = true;
     try {
       const command = await this.api.nextCommand();
-      if (!command) return;
-      try {
-        await execute(command);
-        await this.api.reportCommand(command.id, { success: true });
-      } catch (cause: unknown) {
-        const error = cause instanceof Error ? cause.message : "Unknown error";
-        await this.api.reportCommand(command.id, { success: false, error });
+      if (command) {
+        try {
+          await execute(command);
+          await this.api.reportCommand(command.id, { success: true });
+        } catch (cause: unknown) {
+          const error = cause instanceof Error ? cause.message : "Unknown error";
+          await this.api.reportCommand(command.id, { success: false, error });
+        }
+      }
+
+      for (const job of await this.api.claimJobs(5)) {
+        if (new Date(job.expiresAt) <= new Date()) continue;
+        await this.api.startJob(job.id);
+        try {
+          const result = await executeJob(job);
+          await this.api.completeJob(job.id, result);
+        } catch (cause: unknown) {
+          const error = cause instanceof Error ? cause.message : "Unknown error";
+          await this.api.failJob(job.id, error);
+        }
       }
     } catch (cause: unknown) {
       const message = cause instanceof Error ? cause.message : "Unknown error";
@@ -39,6 +63,48 @@ export class CommandWorker {
       this.running = false;
     }
   }
+}
+
+async function executeJob(job: LegacyConnectorJob): Promise<Record<string, unknown>> {
+  const payload = job.payload as {
+    target?: { address?: string };
+    count?: number;
+    timeoutMs?: number;
+    packetSize?: number;
+    maxHops?: number;
+    router?: {
+      host: string;
+      port: number;
+      tls: boolean;
+      username: string;
+      password: string;
+    };
+  };
+  if (
+    ["monitoring.ping", "network.ping_server", "network.diagnostic_ping"].includes(job.type) &&
+    payload.target?.address
+  ) {
+    return ping(
+      payload.target.address,
+      payload.count ?? 5,
+      payload.timeoutMs ?? 1_000,
+      payload.packetSize ?? 56,
+    );
+  }
+  if (job.type === "network.traceroute" && payload.target?.address) {
+    return traceroute(
+      payload.target.address,
+      payload.maxHops ?? 20,
+      payload.packetSize ?? 56,
+    );
+  }
+  if (job.type === "mikrotik.test_connection" && payload.router) {
+    return testMikrotik(payload.router);
+  }
+  if (job.type === "mikrotik.apply_service") {
+    return provisionService(job.payload as unknown as ServiceProvisionPayload);
+  }
+  throw new Error("Unsupported job type");
 }
 
 async function execute(command: ConnectorCommand): Promise<void> {
@@ -140,4 +206,30 @@ async function setQueue(
   const id = found[0]?.[".id"];
   if (id) await router.set("/queue/simple", id, attributes);
   else await router.add("/queue/simple", { name: command.service.name, ...attributes });
+}
+
+async function testMikrotik(credentials: {
+  host: string;
+  port: number;
+  tls: boolean;
+  username: string;
+  password: string;
+}): Promise<Record<string, unknown>> {
+  const adapter = new RouterOsApiAdapter(credentials);
+  try {
+    await adapter.connect();
+    const info = await adapter.getSystemInfo();
+    return {
+      reachable: true,
+      identity: info.identity,
+      version: info.version,
+      boardName: info.boardName,
+      architecture: info.architecture,
+      serialNumber: info.serialNumber,
+      uptime: info.uptime,
+      testedAt: new Date().toISOString(),
+    };
+  } finally {
+    await adapter.disconnect();
+  }
 }

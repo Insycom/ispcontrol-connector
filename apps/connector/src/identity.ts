@@ -23,12 +23,12 @@ export async function loadOrCreateIdentity(
 
   if (stored) return { identity: stored, created: false };
 
-  await mkdir(directory, { recursive: true, mode: 0o700 });
+  await mkdir(directory, { recursive: true, mode: 0o755 });
   const identity = createIdentity();
 
   await writeFile(identityPath, JSON.stringify(identity), {
     encoding: "utf8",
-    mode: 0o600,
+    mode: 0o644,
     flag: "wx",
   });
 
@@ -48,12 +48,12 @@ export async function saveIdentity(
   directory: string,
   identity: ConnectorIdentity,
 ): Promise<void> {
-  await mkdir(directory, { recursive: true, mode: 0o700 });
+  await mkdir(directory, { recursive: true, mode: 0o755 });
   const identityPath = join(directory, "identity.json");
   const temporaryPath = join(directory, "identity.json.tmp");
   await writeFile(temporaryPath, JSON.stringify(identity), {
     encoding: "utf8",
-    mode: 0o600,
+    mode: 0o644,
   });
   await rename(temporaryPath, identityPath);
 }

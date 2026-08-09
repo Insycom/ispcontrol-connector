@@ -10,7 +10,7 @@ FROM node:24-alpine
 ENV NODE_ENV=production
 ENV ISPCONTROL_MODULES_ROOT=/docker/ispcontrol
 WORKDIR /app
-RUN apk add --no-cache docker-cli docker-cli-compose iputils su-exec
+RUN apk add --no-cache docker-cli docker-cli-compose iputils traceroute su-exec
 RUN addgroup -S ispcontrol && adduser -S ispcontrol -G ispcontrol
 RUN mkdir -p /var/lib/ispcontrol && chown ispcontrol:ispcontrol /var/lib/ispcontrol
 COPY --from=build --chown=ispcontrol:ispcontrol /app/dist ./dist

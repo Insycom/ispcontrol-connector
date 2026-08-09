@@ -16,7 +16,7 @@ const config = loadConfig();
 const identityResult = await loadOrCreateIdentity(config.dataDirectory);
 let identity = identityResult.identity;
 
-if (identityResult.created && config.enrollmentToken) {
+if (config.enrollmentToken && !identity.accessToken) {
   identity = await MachineClient.enroll(
     config.apiUrl,
     config.dataDirectory,
