@@ -22,7 +22,7 @@ export class MachineClient {
     connectorName: string,
   ): Promise<ConnectorIdentity> {
     const response = await fetch(
-      new URL("/connector-api/v1/enrollment/claim", apiUrl),
+      joinApiUrl(apiUrl, "/connector-api/v1/enrollment/claim"),
       {
         method: "POST",
         redirect: "error",
@@ -126,7 +126,7 @@ export class MachineClient {
   }
 
   private authorized(path: string, init: RequestInit): Promise<Response> {
-    return fetch(new URL(path, this.apiUrl), {
+    return fetch(joinApiUrl(this.apiUrl, path), {
       ...init,
       redirect: "error",
       headers: {
@@ -140,7 +140,7 @@ export class MachineClient {
 
   private async refresh(): Promise<void> {
     const response = await fetch(
-      new URL("/connector-api/v1/auth/refresh", this.apiUrl),
+      joinApiUrl(this.apiUrl, "/connector-api/v1/auth/refresh"),
       {
         method: "POST",
         redirect: "error",
@@ -157,6 +157,14 @@ export class MachineClient {
     this.identity = { ...this.identity, ...tokens };
     await saveIdentity(this.dataDirectory, this.identity);
   }
+}
+
+function joinApiUrl(baseUrl: URL, path: string): URL {
+  const url = new URL(baseUrl.toString());
+  const basePath = url.pathname.replace(/\/$/, "");
+  const requestPath = path.replace(/^\//, "");
+  url.pathname = `${basePath}/${requestPath}`.replace(/\/{2,}/g, "/");
+  return url;
 }
 
 async function parseJsonOrThrow(response: Response): Promise<unknown> {
