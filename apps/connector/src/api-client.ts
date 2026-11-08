@@ -150,6 +150,19 @@ body: JSON.stringify({
     if (!response.ok) throw new Error(`Job start API returned ${response.status}`);
   }
 
+  async progressJob(jobId: string): Promise<void> {
+    const response = await fetch(
+      new URL(`/api/v1/connector/v1/jobs/${encodeURIComponent(jobId)}/progress`, this.apiUrl),
+      {
+        method: "POST",
+        redirect: "error",
+        headers: { authorization: `Bearer ${this.identity.apiKey}` },
+        signal: AbortSignal.timeout(10_000),
+      },
+    );
+    if (!response.ok) throw new Error(`Job progress API returned ${response.status}`);
+  }
+
   async completeJob(jobId: string, result: Record<string, unknown>): Promise<void> {
     const response = await fetch(
       new URL(`/api/v1/connector/v1/jobs/${encodeURIComponent(jobId)}/complete`, this.apiUrl),
@@ -167,7 +180,7 @@ body: JSON.stringify({
     if (!response.ok) throw new Error(`Job complete API returned ${response.status}`);
   }
 
-  async failJob(jobId: string, message: string): Promise<void> {
+  async failJob(jobId: string, message: string, retryable = true): Promise<void> {
     const response = await fetch(
       new URL(`/api/v1/connector/v1/jobs/${encodeURIComponent(jobId)}/fail`, this.apiUrl),
       {
@@ -177,7 +190,7 @@ body: JSON.stringify({
           authorization: `Bearer ${this.identity.apiKey}`,
           "content-type": "application/json",
         },
-        body: JSON.stringify({ code: "EXECUTION_FAILED", message, retryable: false }),
+        body: JSON.stringify({ code: "EXECUTION_FAILED", message, retryable }),
         signal: AbortSignal.timeout(10_000),
       },
     );
