@@ -45,15 +45,44 @@ export class CommandWorker {
         }
       }
 
-      for (const job of await this.api.claimJobs(5)) {
+      // Claim one job at a time: do not let queued local work exhaust its lease.
+      for (const job of await this.api.claimJobs(1)) {
         if (new Date(job.expiresAt) <= new Date()) continue;
         await this.api.startJob(job.id);
+        let renewing = false;
+        let leaseLost = false;
+        const renew = async () => {
+          if (renewing || leaseLost) return;
+          renewing = true;
+          try {
+            await this.api.progressJob(job.id);
+          } catch (cause: unknown) {
+            leaseLost = true;
+            console.error(`Could not renew lease for job ${job.id}:`, cause);
+          } finally {
+            renewing = false;
+          }
+        };
+        const leaseTimer = setInterval(() => void renew(), 20_000);
+        let result: Record<string, unknown> | undefined;
+        let executionError: unknown;
         try {
-          const result = await executeJob(job);
-          await this.api.completeJob(job.id, result);
+          result = await executeJob(job);
         } catch (cause: unknown) {
-          const error = cause instanceof Error ? cause.message : "Unknown error";
-          await this.api.failJob(job.id, error);
+          executionError = cause;
+        } finally {
+          clearInterval(leaseTimer);
+        }
+        if (leaseLost) {
+          // The API may already have reassigned the job. Never acknowledge a stale lease.
+          console.error(`Job ${job.id} lost its lease; leaving result for reconciliation`);
+          continue;
+        }
+        if (executionError !== undefined) {
+          const error = executionError instanceof Error ? executionError.message : String(executionError);
+          await this.api.failJob(job.id, error, !error.includes("Unsupported job type"));
+        } else if (result) {
+          await this.api.completeJob(job.id, result);
         }
       }
     } catch (cause: unknown) {
