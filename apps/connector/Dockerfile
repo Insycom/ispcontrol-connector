@@ -1,4 +1,4 @@
-FROM node:24-alpine AS build
+FROM node:26-alpine AS build
 WORKDIR /app
 COPY apps/connector/package.json ./package.json
 RUN npm install
@@ -6,7 +6,7 @@ COPY apps/connector/tsconfig.json ./tsconfig.json
 COPY apps/connector/src ./src
 RUN npm run build
 
-FROM node:24-alpine
+FROM node:26-alpine
 ENV NODE_ENV=production
 ENV ISPCONTROL_MODULES_ROOT=/docker/ispcontrol
 WORKDIR /app
