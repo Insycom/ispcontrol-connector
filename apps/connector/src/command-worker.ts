@@ -11,6 +11,7 @@ import {
   provisionService,
   type ServiceProvisionPayload,
 } from "./mikrotik/service-provisioner.js";
+import { TrustBundleStore } from "./trust-bundle.js";
 
 export class CommandWorker {
   private timer: NodeJS.Timeout | undefined;
@@ -18,6 +19,7 @@ export class CommandWorker {
 
   constructor(
     private readonly api: ConnectorApiClient,
+    private readonly trustBundle?: TrustBundleStore,
     private readonly intervalMs = 2_000,
   ) {}
 
@@ -49,7 +51,7 @@ export class CommandWorker {
         if (new Date(job.expiresAt) <= new Date()) continue;
         await this.api.startJob(job.id);
         try {
-          const result = await executeJob(job);
+          const result = await executeJob(job, this.trustBundle);
           await this.api.completeJob(job.id, result);
         } catch (cause: unknown) {
           const error = cause instanceof Error ? cause.message : "Unknown error";
@@ -65,19 +67,24 @@ export class CommandWorker {
   }
 }
 
-async function executeJob(job: LegacyConnectorJob): Promise<Record<string, unknown>> {
+async function executeJob(
+  job: LegacyConnectorJob,
+  trustBundle?: TrustBundleStore,
+): Promise<Record<string, unknown>> {
   const payload = job.payload as {
     target?: { address?: string };
     count?: number;
     timeoutMs?: number;
     packetSize?: number;
     maxHops?: number;
+    serverId?: string;
     router?: {
       host: string;
       port: number;
       tls: boolean;
       username: string;
       password: string;
+      caPem?: string;
     };
   };
   if (
@@ -99,12 +106,22 @@ async function executeJob(job: LegacyConnectorJob): Promise<Record<string, unkno
     );
   }
   if (job.type === "mikrotik.test_connection" && payload.router) {
-    return testMikrotik(payload.router);
+    return testMikrotik(withTrust(payload.router, payload.serverId, trustBundle));
   }
   if (job.type === "mikrotik.apply_service") {
     return provisionService(job.payload as unknown as ServiceProvisionPayload);
   }
   throw new Error("Unsupported job type");
+}
+
+function withTrust<T extends { host: string; port: number; caPem?: string }>(
+  router: T,
+  serverId: string | undefined,
+  trustBundle: TrustBundleStore | undefined,
+): T {
+  if (router.caPem || !trustBundle) return router;
+  const caPem = trustBundle.caFor(serverId, router.host, router.port);
+  return caPem ? { ...router, caPem } : router;
 }
 
 async function execute(command: ConnectorCommand): Promise<void> {
@@ -214,6 +231,7 @@ async function testMikrotik(credentials: {
   tls: boolean;
   username: string;
   password: string;
+  caPem?: string;
 }): Promise<Record<string, unknown>> {
   const adapter = new RouterOsApiAdapter(credentials);
   try {

@@ -67,6 +67,11 @@ export class MachineClient {
     return (await parseJsonOrThrow(response)) as MonitoredDeviceConfig[];
   }
 
+  async trustBundle(): Promise<TrustBundle> {
+    const response = await this.request("/connector-api/v1/trust-bundle", {});
+    return (await parseJsonOrThrow(response)) as TrustBundle;
+  }
+
   async sendEvents(events: OutboxEvent[]): Promise<string[]> {
     const response = await this.request("/connector-api/v1/events/batch", {
       method: "POST",
@@ -202,10 +207,26 @@ export type MachineJob = {
       tls: boolean;
       username: string;
       password: string;
+      caPem?: string;
     };
     periodStartedAt?: string;
     periodEndedAt?: string;
     deviceIds?: string[];
   };
   expiresAt: string;
+};
+
+export type TrustBundle = {
+  schemaVersion: 1;
+  digest: string;
+  anchors: Array<{
+    id: string;
+    trustAnchorId: string;
+    serverId: string;
+    hosts: string[];
+    port: number;
+    fingerprintSha256: string;
+    validTo: string;
+    certificatePem: string;
+  }>;
 };

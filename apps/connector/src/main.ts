@@ -9,6 +9,7 @@ import { ConnectorDatabase } from "./persistence/database.js";
 import { MachineClient } from "./machine-client.js";
 import { MonitoringService } from "./monitoring/monitoring-service.js";
 import { totalmem, freemem, uptime, loadavg, cpus } from "node:os";
+import { TrustBundleStore } from "./trust-bundle.js";
 
 const CONNECTOR_VERSION = "0.2.1";
 
@@ -34,15 +35,27 @@ let commandWorker: CommandWorker | undefined;
 let monitoring: MonitoringService | undefined;
 let database: ConnectorDatabase | undefined;
 let machineHeartbeat: NodeJS.Timeout | undefined;
+let trustBundleRefresh: NodeJS.Timeout | undefined;
+const trustBundle = new TrustBundleStore(config.dataDirectory);
+await trustBundle.load();
 
 if (identity.apiKey) {
   const apiClient = new ConnectorApiClient(config.apiUrl, identity);
+  const refreshTrust = async () => {
+    try {
+      await trustBundle.update(await apiClient.trustBundle());
+    } catch (error: unknown) {
+      console.error(`Trust bundle refresh failed: ${error instanceof Error ? error.message : "unknown error"}`);
+    }
+  };
+  await refreshTrust();
+  trustBundleRefresh = setInterval(() => void refreshTrust(), 300_000);
   heartbeat = new Heartbeat(
     apiClient,
     connectionState,
     config.heartbeatIntervalMs,
   );
-  commandWorker = new CommandWorker(apiClient);
+  commandWorker = new CommandWorker(apiClient, trustBundle);
   commandWorker.start();
   await heartbeat.start();
 } else {
@@ -51,6 +64,15 @@ if (identity.apiKey) {
     config.dataDirectory,
     identity,
   );
+  const refreshTrust = async () => {
+    try {
+      await trustBundle.update(await machineClient.trustBundle());
+    } catch (error: unknown) {
+      console.error(`Trust bundle refresh failed: ${error instanceof Error ? error.message : "unknown error"}`);
+    }
+  };
+  await refreshTrust();
+  trustBundleRefresh = setInterval(() => void refreshTrust(), 300_000);
   database = new ConnectorDatabase(config.dataDirectory);
   monitoring = new MonitoringService(machineClient, database);
   await monitoring.start();
@@ -88,6 +110,7 @@ async function shutdown(): Promise<void> {
   commandWorker?.stop();
   monitoring?.stop();
   if (machineHeartbeat) clearInterval(machineHeartbeat);
+  if (trustBundleRefresh) clearInterval(trustBundleRefresh);
   database?.close();
   await healthServer.close();
 }

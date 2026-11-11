@@ -1,5 +1,11 @@
-import { connect as connectTcp, type Socket } from "node:net";
-import { connect as connectTls, type TLSSocket } from "node:tls";
+import { connect as connectTcp, isIP, type Socket } from "node:net";
+import {
+  checkServerIdentity,
+  connect as connectTls,
+  type ConnectionOptions,
+  type PeerCertificate,
+  type TLSSocket,
+} from "node:tls";
 
 type RouterConnection = Socket | TLSSocket;
 type Sentence = string[];
@@ -10,6 +16,7 @@ export type RouterCredentials = {
   tls: boolean;
   username: string;
   password: string;
+  caPem?: string;
 };
 
 export class RouterOsClient {
@@ -137,11 +144,7 @@ export class RouterOsClient {
 function openSocket(credentials: RouterCredentials): Promise<RouterConnection> {
   return new Promise((resolve, reject) => {
     const socket = credentials.tls
-      ? connectTls({
-          host: credentials.host,
-          port: credentials.port,
-          rejectUnauthorized: false,
-        })
+      ? connectTls(tlsOptionsFor(credentials))
       : connectTcp({ host: credentials.host, port: credentials.port });
     const timer = setTimeout(() => {
       socket.destroy();
@@ -156,6 +159,19 @@ function openSocket(credentials: RouterCredentials): Promise<RouterConnection> {
       reject(error);
     });
   });
+}
+
+export function tlsOptionsFor(credentials: RouterCredentials): ConnectionOptions {
+  const host = credentials.host;
+  return {
+    host,
+    port: credentials.port,
+    ca: credentials.caPem ? [credentials.caPem] : undefined,
+    rejectUnauthorized: true,
+    servername: isIP(host) ? undefined : host,
+    checkServerIdentity: (_hostname: string, certificate: PeerCertificate) =>
+      checkServerIdentity(host, certificate),
+  };
 }
 
 function encodeSentence(words: string[]): Buffer {
