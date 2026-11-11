@@ -55,8 +55,9 @@ part of this feature.
 - Never accept or persist private keys in a CA bundle.
 - Never use `NODE_TLS_REJECT_UNAUTHORIZED=0`, an insecure HTTPS agent, or an
   equivalent global override.
-- Trust anchors are tenant/device/Connector scoped and cannot authorize an
-  unrelated destination.
+- Trust anchors may be platform-wide (such as the Insycom CA) or tenant-owned,
+  but their use remains explicitly device/Connector/destination scoped and
+  cannot authorize an unrelated destination.
 - Bundle files and logs must not include device credentials, enrollment tokens,
   refresh tokens, or private keys.
 - A malformed, expired, revoked, weak, or digest-mismatched bundle fails closed.
@@ -77,6 +78,8 @@ part of this feature.
    scoping, refresh failure, rotation, and sanitized reporting.
 8. The versioned API/Connector contract and deployment documentation are
    updated together with the implementation.
+9. One platform CA can validate explicitly assigned MikroTik certificates from
+   multiple tenants without becoming a global process trust override.
 
 ## Out of scope
 

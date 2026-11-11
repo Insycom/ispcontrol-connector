@@ -1,4 +1,5 @@
 import type { ConnectorIdentity } from "./identity.js";
+import type { TrustBundle } from "./machine-client.js";
 
 export type HeartbeatResult =
   | { accepted: true; heartbeatIntervalMs?: number; heartbeatFields?: string[] | null }
@@ -13,6 +14,7 @@ export type ConnectorCommand = {
     tls: boolean;
     username: string;
     password: string;
+    caPem?: string;
   };
   service: {
     id: string;
@@ -45,6 +47,7 @@ export type LegacyConnectorJob = {
       tls: boolean;
       username: string;
       password: string;
+      caPem?: string;
     };
     periodStartedAt?: string;
     periodEndedAt?: string;
@@ -81,6 +84,23 @@ body: JSON.stringify({
     return response.ok
       ? { accepted: true }
       : { accepted: false, status: response.status };
+  }
+
+  async trustBundle(): Promise<TrustBundle> {
+    const response = await fetch(
+      new URL("/api/v1/connector/v1/trust-bundle", this.apiUrl),
+      {
+        redirect: "error",
+        headers: { authorization: `Bearer ${this.identity.apiKey}` },
+        signal: AbortSignal.timeout(10_000),
+      },
+    );
+    if (!response.ok) {
+      throw new Error(`Trust bundle request failed with ${response.status}`);
+    }
+    const bundle = await parseJsonOrNull<TrustBundle>(response);
+    if (!bundle) throw new Error("Trust bundle response is empty");
+    return bundle;
   }
 
   async nextCommand(): Promise<ConnectorCommand | null> {
