@@ -104,6 +104,12 @@ export class MonitoringService {
       device,
     );
     this.database.saveState(device.id, transition.state);
+    this.database.enqueue({
+      eventId: `evt_${randomUUID()}`, type:"device.probe", schemaVersion:1,
+      sequence:this.database.nextSequence(), occurredAt:result.completedAt,
+      deviceId:device.id,severity:"info",payload:{address:device.address,
+        packetLossPercent:result.packetLossPercent,averageLatencyMs:result.averageLatencyMs},
+    });
     if (transition.event) {
       const event: OutboxEvent = {
         eventId: `evt_${randomUUID()}`,
