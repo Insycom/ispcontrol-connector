@@ -63,6 +63,15 @@ export class RouterOsClient {
     );
   }
 
+  async readQueueRate(ip: string) {
+    if (isIP(ip) !== 4) throw new Error("Se requiere IPv4");
+    const rows = await this.command("/queue/simple/print", {stats:"", ".proplist":"target,rate"}, {target:ip+"/32"});
+    if (rows.length !== 1 || rows[0]?.target !== ip+"/32") throw new Error("No hay una cola individual identificable para esta IP.");
+    const rate = /^(\d+)\/(\d+)$/.exec(rows[0].rate ?? "");
+    if (!rate) throw new Error("El MikroTik no devolvió una velocidad válida.");
+    return { uploadBps:Number(rate[1]), downloadBps:Number(rate[2]), sampledAt:new Date().toISOString() };
+  }
+
   async add(path: string, attributes: Record<string, string>): Promise<void> {
     await this.command(`${path}/add`, attributes);
   }
@@ -243,4 +252,15 @@ function attributesFrom(sentence: Sentence): Record<string, string> {
       return separator < 0 ? [] : [[word.slice(1, separator), word.slice(separator + 1)]];
     }),
   );
+}
+
+export async function readServiceTraffic(router: RouterCredentials, address: string) {
+  const client = new RouterOsClient(router);
+  let timeout: ReturnType<typeof setTimeout> | undefined;
+  try {
+    return await Promise.race([
+      (async () => { await client.connect(); return client.readQueueRate(address); })(),
+      new Promise<never>((_,reject) => {timeout=setTimeout(()=>reject(new Error("El MikroTik no respondió a tiempo.")),15000);}),
+    ]);
+  } finally { clearTimeout(timeout); await client.close(); }
 }

@@ -1,3 +1,4 @@
+import { readServiceTraffic } from "./routeros-client.js";
 import type {
   ConnectorApiClient,
   ConnectorCommand,
@@ -72,6 +73,7 @@ async function executeJob(
   trustBundle?: TrustBundleStore,
 ): Promise<Record<string, unknown>> {
   const payload = job.payload as {
+    address?: string;
     target?: { address?: string };
     count?: number;
     timeoutMs?: number;
@@ -105,6 +107,7 @@ async function executeJob(
       payload.packetSize ?? 56,
     );
   }
+  if (job.type === "mikrotik.service_traffic" && payload.router && payload.address) return readServiceTraffic(withTrust(payload.router,payload.serverId,trustBundle),payload.address);
   if (job.type === "mikrotik.test_connection" && payload.router) {
     return testMikrotik(withTrust(payload.router, payload.serverId, trustBundle));
   }

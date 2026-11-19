@@ -1,3 +1,4 @@
+import { readServiceTraffic } from "../routeros-client.js";
 import { randomUUID } from "node:crypto";
 import type { MachineClient } from "../machine-client.js";
 import {
@@ -157,7 +158,8 @@ export class MonitoringService {
         await this.client.startJob(job.id);
         try {
           const payload = job.payload as {
-            target?: { address?: string };
+            address?: string;
+    target?: { address?: string };
             count?: number;
             timeoutMs?: number;
             packetSize?: number;
@@ -188,6 +190,8 @@ export class MonitoringService {
                     payload.maxHops ?? 20,
                     payload.packetSize ?? 56,
                   )
+              : job.type === "mikrotik.service_traffic" && payload.router && payload.address
+                ? await readServiceTraffic(payload.router,payload.address)
               : job.type === "mikrotik.test_connection" && payload.router
                 ? await testMikrotik(payload.router)
               : job.type === "mikrotik.apply_service" && payload.router
