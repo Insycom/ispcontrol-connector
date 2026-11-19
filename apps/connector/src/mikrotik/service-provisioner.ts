@@ -7,6 +7,7 @@ export type ServiceProvisionPayload = {
     id: string;
     name: string;
     ipAddress?: string;
+    previousIpAddress?: string;
     macAddress?: string;
     connectionType: "STATIC_IP" | "DHCP" | "PPPOE" | "ADDRESS_LIST";
     queueMode: "SIMPLE_QUEUE" | "ADDRESS_LIST_ONLY";
@@ -45,6 +46,16 @@ export async function provisionService(payload: ServiceProvisionPayload) {
     await applyQueue(router, payload, suspended);
     await applyPppoe(router, payload, suspended);
     await applyDhcp(router, payload, suspended);
+    const service = payload.service;
+    if (service.previousIpAddress && service.previousIpAddress !== service.ipAddress) {
+      const lists = new Set([service.enabledAddressListName, service.blockedAddressListName,
+        service.planAddressListName, ...(service.cleanupAddressListNames ?? [])]);
+      for (const list of lists) {
+        if (list) await remove(router, "/ip/firewall/address-list", {
+          list, address: service.previousIpAddress, comment: service.name,
+        });
+      }
+    }
     return {
       reachable: true,
       serviceId: payload.service.id,
