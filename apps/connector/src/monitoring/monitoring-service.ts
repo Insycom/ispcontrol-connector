@@ -1,3 +1,4 @@
+import { syncQueueGraphs } from "../mikrotik/queue-graphs.js";
 import { readServiceTraffic } from "../routeros-client.js";
 import { randomUUID } from "node:crypto";
 import type { MachineClient } from "../machine-client.js";
@@ -158,7 +159,9 @@ export class MonitoringService {
         await this.client.startJob(job.id);
         try {
           const payload = job.payload as {
-            address?: string;
+            enabled?: boolean;
+    serverId?: string;
+    address?: string;
     target?: { address?: string };
             count?: number;
             timeoutMs?: number;
@@ -190,6 +193,8 @@ export class MonitoringService {
                     payload.maxHops ?? 20,
                     payload.packetSize ?? 56,
                   )
+              : job.type === "mikrotik.sync_queue_graphs" && payload.router && payload.serverId && typeof payload.enabled === "boolean"
+                ? await syncQueueGraphs(payload.router,payload.serverId,payload.enabled)
               : job.type === "mikrotik.service_traffic" && payload.router && payload.address
                 ? await readServiceTraffic(payload.router,payload.address)
               : job.type === "mikrotik.test_connection" && payload.router

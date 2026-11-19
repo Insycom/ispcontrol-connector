@@ -1,3 +1,4 @@
+import { syncQueueGraphs } from "./mikrotik/queue-graphs.js";
 import { readServiceTraffic } from "./routeros-client.js";
 import type {
   ConnectorApiClient,
@@ -73,6 +74,7 @@ async function executeJob(
   trustBundle?: TrustBundleStore,
 ): Promise<Record<string, unknown>> {
   const payload = job.payload as {
+    enabled?: boolean;
     address?: string;
     target?: { address?: string };
     count?: number;
@@ -107,6 +109,7 @@ async function executeJob(
       payload.packetSize ?? 56,
     );
   }
+  if (job.type === "mikrotik.sync_queue_graphs" && payload.router && payload.serverId && typeof payload.enabled === "boolean") return syncQueueGraphs(withTrust(payload.router,payload.serverId,trustBundle),payload.serverId,payload.enabled);
   if (job.type === "mikrotik.service_traffic" && payload.router && payload.address) return readServiceTraffic(withTrust(payload.router,payload.serverId,trustBundle),payload.address);
   if (job.type === "mikrotik.test_connection" && payload.router) {
     return testMikrotik(withTrust(payload.router, payload.serverId, trustBundle));
