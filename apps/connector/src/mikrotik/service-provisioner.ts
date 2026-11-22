@@ -7,12 +7,15 @@ export type ServiceProvisionPayload = {
     id: string;
     name: string;
     ipAddress?: string;
+    previousIpAddress?: string;
     macAddress?: string;
     connectionType: "STATIC_IP" | "DHCP" | "PPPOE" | "ADDRESS_LIST";
     queueMode: "SIMPLE_QUEUE" | "ADDRESS_LIST_ONLY";
     addressListEnabled: boolean;
-    addressListName?: string;
-    suspendedAddressListName?: string;
+    enabledAddressListName?: string;
+    blockedAddressListName?: string;
+    planAddressListName?: string;
+    cleanupAddressListNames?: string[];
     uploadKbps: number;
     downloadKbps: number;
     burstUploadKbps?: number;
@@ -43,6 +46,16 @@ export async function provisionService(payload: ServiceProvisionPayload) {
     await applyQueue(router, payload, suspended);
     await applyPppoe(router, payload, suspended);
     await applyDhcp(router, payload, suspended);
+    const service = payload.service;
+    if (service.previousIpAddress && service.previousIpAddress !== service.ipAddress) {
+      const lists = new Set([service.enabledAddressListName, service.blockedAddressListName,
+        service.planAddressListName, ...(service.cleanupAddressListNames ?? [])]);
+      for (const list of lists) {
+        if (list) await remove(router, "/ip/firewall/address-list", {
+          list, address: service.previousIpAddress, comment: service.name,
+        });
+      }
+    }
     return {
       reachable: true,
       serviceId: payload.service.id,
@@ -61,13 +74,20 @@ async function applyAddressLists(
 ) {
   const { service } = payload;
   if (!service.ipAddress) return;
-  if (service.addressListName) {
-    if (suspended) await remove(router, "/ip/firewall/address-list", { list: service.addressListName, address: service.ipAddress });
-    else if (service.addressListEnabled) await ensure(router, "/ip/firewall/address-list", { list: service.addressListName, address: service.ipAddress }, { comment: service.name });
+  for (const list of new Set(service.cleanupAddressListNames ?? [])) {
+    await remove(router, "/ip/firewall/address-list", { list, address: service.ipAddress });
   }
-  if (service.suspendedAddressListName) {
-    if (suspended) await ensure(router, "/ip/firewall/address-list", { list: service.suspendedAddressListName, address: service.ipAddress }, { comment: service.name });
-    else await remove(router, "/ip/firewall/address-list", { list: service.suspendedAddressListName, address: service.ipAddress });
+  if (service.enabledAddressListName) {
+    if (suspended) await remove(router, "/ip/firewall/address-list", { list: service.enabledAddressListName, address: service.ipAddress });
+    else await ensure(router, "/ip/firewall/address-list", { list: service.enabledAddressListName, address: service.ipAddress }, { comment: service.name });
+  }
+  if (service.planAddressListName && service.addressListEnabled) {
+    if (suspended) await remove(router, "/ip/firewall/address-list", { list: service.planAddressListName, address: service.ipAddress });
+    else await ensure(router, "/ip/firewall/address-list", { list: service.planAddressListName, address: service.ipAddress }, { comment: service.name });
+  }
+  if (service.blockedAddressListName) {
+    if (suspended) await ensure(router, "/ip/firewall/address-list", { list: service.blockedAddressListName, address: service.ipAddress }, { comment: service.name });
+    else await remove(router, "/ip/firewall/address-list", { list: service.blockedAddressListName, address: service.ipAddress });
   }
 }
 

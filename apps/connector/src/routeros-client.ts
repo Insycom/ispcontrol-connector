@@ -1,5 +1,11 @@
-import { connect as connectTcp, type Socket } from "node:net";
-import { connect as connectTls, type TLSSocket } from "node:tls";
+import { connect as connectTcp, isIP, type Socket } from "node:net";
+import {
+  checkServerIdentity,
+  connect as connectTls,
+  type ConnectionOptions,
+  type PeerCertificate,
+  type TLSSocket,
+} from "node:tls";
 
 type RouterConnection = Socket | TLSSocket;
 type Sentence = string[];
@@ -10,6 +16,7 @@ export type RouterCredentials = {
   tls: boolean;
   username: string;
   password: string;
+  caPem?: string;
 };
 
 export class RouterOsClient {
@@ -54,6 +61,15 @@ export class RouterOsClient {
     return rows.filter((row) =>
       Object.entries(query).every(([key, value]) => row[key] === value),
     );
+  }
+
+  async readQueueRate(ip: string) {
+    if (isIP(ip) !== 4) throw new Error("Se requiere IPv4");
+    const rows = await this.command("/queue/simple/print", {stats:"", ".proplist":"target,rate"}, {target:ip+"/32"});
+    if (rows.length !== 1 || rows[0]?.target !== ip+"/32") throw new Error("No hay una cola individual identificable para esta IP.");
+    const rate = /^(\d+)\/(\d+)$/.exec(rows[0].rate ?? "");
+    if (!rate) throw new Error("El MikroTik no devolvió una velocidad válida.");
+    return { uploadBps:Number(rate[1]), downloadBps:Number(rate[2]), sampledAt:new Date().toISOString() };
   }
 
   async add(path: string, attributes: Record<string, string>): Promise<void> {
@@ -137,11 +153,7 @@ export class RouterOsClient {
 function openSocket(credentials: RouterCredentials): Promise<RouterConnection> {
   return new Promise((resolve, reject) => {
     const socket = credentials.tls
-      ? connectTls({
-          host: credentials.host,
-          port: credentials.port,
-          rejectUnauthorized: false,
-        })
+      ? connectTls(tlsOptionsFor(credentials))
       : connectTcp({ host: credentials.host, port: credentials.port });
     const timer = setTimeout(() => {
       socket.destroy();
@@ -156,6 +168,19 @@ function openSocket(credentials: RouterCredentials): Promise<RouterConnection> {
       reject(error);
     });
   });
+}
+
+export function tlsOptionsFor(credentials: RouterCredentials): ConnectionOptions {
+  const host = credentials.host;
+  return {
+    host,
+    port: credentials.port,
+    ca: credentials.caPem ? [credentials.caPem] : undefined,
+    rejectUnauthorized: true,
+    servername: isIP(host) ? undefined : host,
+    checkServerIdentity: (_hostname: string, certificate: PeerCertificate) =>
+      checkServerIdentity(host, certificate),
+  };
 }
 
 function encodeSentence(words: string[]): Buffer {
@@ -227,4 +252,15 @@ function attributesFrom(sentence: Sentence): Record<string, string> {
       return separator < 0 ? [] : [[word.slice(1, separator), word.slice(separator + 1)]];
     }),
   );
+}
+
+export async function readServiceTraffic(router: RouterCredentials, address: string) {
+  const client = new RouterOsClient(router);
+  let timeout: ReturnType<typeof setTimeout> | undefined;
+  try {
+    return await Promise.race([
+      (async () => { await client.connect(); return client.readQueueRate(address); })(),
+      new Promise<never>((_,reject) => {timeout=setTimeout(()=>reject(new Error("El MikroTik no respondió a tiempo.")),15000);}),
+    ]);
+  } finally { clearTimeout(timeout); await client.close(); }
 }

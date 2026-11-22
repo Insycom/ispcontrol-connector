@@ -1,3 +1,6 @@
+import { runReservedJob } from "./reserved-job.js";
+import { syncQueueGraphs } from "./mikrotik/queue-graphs.js";
+import { readServiceTraffic } from "./routeros-client.js";
 import type {
   ConnectorApiClient,
   ConnectorCommand,
@@ -11,6 +14,7 @@ import {
   provisionService,
   type ServiceProvisionPayload,
 } from "./mikrotik/service-provisioner.js";
+import { TrustBundleStore } from "./trust-bundle.js";
 
 export class CommandWorker {
   private timer: NodeJS.Timeout | undefined;
@@ -18,6 +22,7 @@ export class CommandWorker {
 
   constructor(
     private readonly api: ConnectorApiClient,
+    private readonly trustBundle?: TrustBundleStore,
     private readonly intervalMs = 2_000,
   ) {}
 
@@ -48,42 +53,7 @@ export class CommandWorker {
       // Claim one job at a time: do not let queued local work exhaust its lease.
       for (const job of await this.api.claimJobs(1)) {
         if (new Date(job.expiresAt) <= new Date()) continue;
-        await this.api.startJob(job.id);
-        let renewing = false;
-        let leaseLost = false;
-        const renew = async () => {
-          if (renewing || leaseLost) return;
-          renewing = true;
-          try {
-            await this.api.progressJob(job.id);
-          } catch (cause: unknown) {
-            leaseLost = true;
-            console.error(`Could not renew lease for job ${job.id}:`, cause);
-          } finally {
-            renewing = false;
-          }
-        };
-        const leaseTimer = setInterval(() => void renew(), 20_000);
-        let result: Record<string, unknown> | undefined;
-        let executionError: unknown;
-        try {
-          result = await executeJob(job);
-        } catch (cause: unknown) {
-          executionError = cause;
-        } finally {
-          clearInterval(leaseTimer);
-        }
-        if (leaseLost) {
-          // The API may already have reassigned the job. Never acknowledge a stale lease.
-          console.error(`Job ${job.id} lost its lease; leaving result for reconciliation`);
-          continue;
-        }
-        if (executionError !== undefined) {
-          const error = executionError instanceof Error ? executionError.message : String(executionError);
-          await this.api.failJob(job.id, error, !error.includes("Unsupported job type"));
-        } else if (result) {
-          await this.api.completeJob(job.id, result);
-        }
+        await runReservedJob(this.api, job.id, () => executeJob(job, this.trustBundle));
       }
     } catch (cause: unknown) {
       const message = cause instanceof Error ? cause.message : "Unknown error";
@@ -94,19 +64,26 @@ export class CommandWorker {
   }
 }
 
-async function executeJob(job: LegacyConnectorJob): Promise<Record<string, unknown>> {
+async function executeJob(
+  job: LegacyConnectorJob,
+  trustBundle?: TrustBundleStore,
+): Promise<Record<string, unknown>> {
   const payload = job.payload as {
+    enabled?: boolean;
+    address?: string;
     target?: { address?: string };
     count?: number;
     timeoutMs?: number;
     packetSize?: number;
     maxHops?: number;
+    serverId?: string;
     router?: {
       host: string;
       port: number;
       tls: boolean;
       username: string;
       password: string;
+      caPem?: string;
     };
   };
   if (
@@ -127,13 +104,25 @@ async function executeJob(job: LegacyConnectorJob): Promise<Record<string, unkno
       payload.packetSize ?? 56,
     );
   }
+  if (job.type === "mikrotik.sync_queue_graphs" && payload.router && payload.serverId && typeof payload.enabled === "boolean") return syncQueueGraphs(withTrust(payload.router,payload.serverId,trustBundle),payload.serverId,payload.enabled);
+  if (job.type === "mikrotik.service_traffic" && payload.router && payload.address) return readServiceTraffic(withTrust(payload.router,payload.serverId,trustBundle),payload.address);
   if (job.type === "mikrotik.test_connection" && payload.router) {
-    return testMikrotik(payload.router);
+    return testMikrotik(withTrust(payload.router, payload.serverId, trustBundle));
   }
   if (job.type === "mikrotik.apply_service") {
     return provisionService(job.payload as unknown as ServiceProvisionPayload);
   }
   throw new Error("Unsupported job type");
+}
+
+function withTrust<T extends { host: string; port: number; caPem?: string }>(
+  router: T,
+  serverId: string | undefined,
+  trustBundle: TrustBundleStore | undefined,
+): T {
+  if (router.caPem || !trustBundle) return router;
+  const caPem = trustBundle.caFor(serverId, router.host, router.port);
+  return caPem ? { ...router, caPem } : router;
 }
 
 async function execute(command: ConnectorCommand): Promise<void> {
@@ -243,6 +232,7 @@ async function testMikrotik(credentials: {
   tls: boolean;
   username: string;
   password: string;
+  caPem?: string;
 }): Promise<Record<string, unknown>> {
   const adapter = new RouterOsApiAdapter(credentials);
   try {

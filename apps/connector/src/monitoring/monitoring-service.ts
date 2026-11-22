@@ -1,3 +1,6 @@
+import { runReservedJob } from "../reserved-job.js";
+import { syncQueueGraphs } from "../mikrotik/queue-graphs.js";
+import { readServiceTraffic } from "../routeros-client.js";
 import { randomUUID } from "node:crypto";
 import type { MachineClient } from "../machine-client.js";
 import {
@@ -20,6 +23,7 @@ export class MonitoringService {
   private outboxTimer: NodeJS.Timeout | undefined;
   private sampleTimer: NodeJS.Timeout | undefined;
   private retentionTimer: NodeJS.Timeout | undefined;
+  private pollingJobs = false;
   private jobTimer: NodeJS.Timeout | undefined;
   private readonly lastChecks = new Map<string, number>();
   private running = false;
@@ -102,6 +106,12 @@ export class MonitoringService {
       device,
     );
     this.database.saveState(device.id, transition.state);
+    this.database.enqueue({
+      eventId: `evt_${randomUUID()}`, type:"device.probe", schemaVersion:1,
+      sequence:this.database.nextSequence(), occurredAt:result.completedAt,
+      deviceId:device.id,severity:"info",payload:{address:device.address,
+        packetLossPercent:result.packetLossPercent,averageLatencyMs:result.averageLatencyMs},
+    });
     if (transition.event) {
       const event: OutboxEvent = {
         eventId: `evt_${randomUUID()}`,
@@ -151,13 +161,17 @@ export class MonitoringService {
   }
 
   private async jobs(): Promise<void> {
+    if (this.pollingJobs) return;
+    this.pollingJobs = true;
     try {
       for (const job of await this.client.claimJobs()) {
         if (new Date(job.expiresAt) <= new Date()) continue;
-        await this.client.startJob(job.id);
-        try {
+        await runReservedJob(this.client, job.id, async () => {
           const payload = job.payload as {
-            target?: { address?: string };
+            enabled?: boolean;
+    serverId?: string;
+    address?: string;
+    target?: { address?: string };
             count?: number;
             timeoutMs?: number;
             packetSize?: number;
@@ -188,6 +202,10 @@ export class MonitoringService {
                     payload.maxHops ?? 20,
                     payload.packetSize ?? 56,
                   )
+              : job.type === "mikrotik.sync_queue_graphs" && payload.router && payload.serverId && typeof payload.enabled === "boolean"
+                ? await syncQueueGraphs(payload.router,payload.serverId,payload.enabled)
+              : job.type === "mikrotik.service_traffic" && payload.router && payload.address
+                ? await readServiceTraffic(payload.router,payload.address)
               : job.type === "mikrotik.test_connection" && payload.router
                 ? await testMikrotik(payload.router)
               : job.type === "mikrotik.apply_service" && payload.router
@@ -203,14 +221,13 @@ export class MonitoringService {
                 : (() => {
                     throw new Error("Unsupported job type");
                   })();
-          await this.client.completeJob(job.id, result);
-        } catch (cause) {
-          const message = cause instanceof Error ? cause.message : "Unknown error";
-          await this.client.failJob(job.id, message);
-        }
+          return result;
+        });
       }
     } catch (cause) {
       logError("jobs.poll")(cause);
+    } finally {
+      this.pollingJobs = false;
     }
   }
 
