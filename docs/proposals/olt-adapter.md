@@ -51,3 +51,5 @@ Todos los POST reciben un JSON con `connection` (host, protocolo, puerto, autent
 - Credenciales no se almacenan ni aparecen en logs.
 - Tests de drivers con fixtures; pruebas de integración sin escrituras por defecto.
 - Builds públicos sin fuentes Go ni herramientas de compilación.
+
+Perfil observado en equipo: [C-Data FD1604S-B1](cdata-fd1604sb1-cli.md).
