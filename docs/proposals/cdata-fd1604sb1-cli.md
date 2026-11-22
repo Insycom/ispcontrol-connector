@@ -27,3 +27,14 @@ Los números 1 y 1 son los argumentos PON y ONT usados en la prueba. Para otros 
 La sintaxis de escritura se inspeccionó con ayuda contextual y cancelación de la línea. La siguiente prueba requiere una ONT de laboratorio y perfiles identificados para este firmware. Antes de escribir, resolver una sola ONT por serial y puerto; después, verificar el resultado consultando esa misma ONT.
 
 [Índice de ayuda observado por modo y prefijo](cdata-fd1604sb1-help.tsv). El índice registra tokens de la ayuda, incluidas continuaciones y rangos. Los prefijos con valores concretos son ejemplos de navegación. La exploración cubre los menús principales y profundiza en GPON; otras tarjetas, permisos, firmwares y parámetros pueden exponer variantes adicionales.
+
+## Alarmas y operaciones individuales en V3.3.65_250926
+
+En modo privilegiado se verificaron las dos consultas siguientes sobre un puerto con eventos reales. Ambas salidas son paginadas.
+
+- Activas: `show alarm active alarmparameter gpon <frame>/<slot>/<puerto> detail`.
+- Históricas: `show alarm history alarmparameter gpon <frame>/<slot>/<puerto> detail`.
+
+La CLI filtra por PON. En cada registro, el bloque INSTANCE puede incluir FrameID, SlotID, PortID, OnuID, Uni y ONU-SN. Para mostrar alarmas individuales se debe comparar el serial normalizado con ONU-SN y la ubicación con la devuelta por la consulta de inventario. Los eventos que solo identifican el PON se muestran como eventos del puerto. En histórico, el encabezado puede incluir la fecha de despeje (clear). Se observaron pérdida de señal de ONU y caída del enlace Ethernet de un puerto de usuario.
+
+En el contexto GPON, la ayuda de `ont disable <puerto>` y `ont enable <puerto>` admite selección por serial mediante `sn` o por ONT-ID. Las ramas activate/deactivate ofrecen ID o selección masiva. Estos datos distinguen los selectores, pero el efecto sobre registro y conservación de perfiles requiere una prueba controlada. El reinicio individual llega a fin de comando con `ont reboot <puerto> <ONT-ID>`. Validar en la ONT de prueba el acuse, caída y posterior retorno.
