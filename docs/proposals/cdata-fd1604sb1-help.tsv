@@ -1,0 +1,1298 @@
+modo	prefijo	opción	descripción
+usuario	(raíz)	enable	Turn on privileged mode command
+usuario	(raíz)	exit	Exit current mode and down to previous mode
+usuario	(raíz)	logout	Log off this system
+usuario	(raíz)	ping	Send echo messages
+usuario	(raíz)	ping6	Send echo messages
+usuario	(raíz)	telnet	Telnet function
+usuario	(raíz)	traceroute	Trace route to destination
+privilegiado	(raíz)	auto-backup	Auto backup log file
+privilegiado	(raíz)	backup	<Group> backup command group
+privilegiado	(raíz)	config	Configuration from vty interface
+privilegiado	(raíz)	disable	Turn off privileged mode command
+privilegiado	(raíz)	end	End current mode and change to enable mode
+privilegiado	(raíz)	exit	Exit current mode and down to previous mode
+privilegiado	(raíz)	file	<Group>File system group
+privilegiado	(raíz)	flash	User flash
+privilegiado	(raíz)	ipv6	IP information
+privilegiado	(raíz)	logout	Log off this system
+privilegiado	(raíz)	no	Negate a command or set its defaults
+privilegiado	(raíz)	ping	Send echo messages
+privilegiado	(raíz)	ping6	Send echo messages
+privilegiado	(raíz)	reset	Reset system
+privilegiado	(raíz)	service	Service
+privilegiado	(raíz)	show	Show running system information
+privilegiado	(raíz)	telnet	Telnet function
+privilegiado	(raíz)	terminal	Set terminal line parameters
+privilegiado	(raíz)	traceroute	Trace route to destination
+privilegiado	(raíz)	undebug	Disable debugging functions (see also 'debug')
+privilegiado	auto-backup	configuration	configuration
+privilegiado	auto-backup	log	Log
+privilegiado	backup	log-file	Log file
+privilegiado	backup	saved-config	Saved config
+privilegiado	config	<cr>	- Please press ENTER to execute
+privilegiado	disable	<cr>	- Please press ENTER to execute
+privilegiado	end	<cr>	- Please press ENTER to execute
+privilegiado	exit	<cr>	- Please press ENTER to execute
+privilegiado	file	delete	File delete operation
+privilegiado	flash	file	<Group>File system group
+privilegiado	ipv6	route	Establish static routes
+privilegiado	logout	<cr>	- Please press ENTER to execute
+privilegiado	no	ipv6	IP information
+privilegiado	no	service	Service
+privilegiado	no	terminal	Set terminal line parameters
+privilegiado	ping	HOST	Ping destination address or hostname
+privilegiado	ping6	HOST	Ping destination address or hostname
+privilegiado	reset	key	Reset system by key
+privilegiado	service	default	Default policy
+privilegiado	service	http	Http service
+privilegiado	service	https	Https service
+privilegiado	service	snmp	Snmp service
+privilegiado	service	ssh	Ssh service
+privilegiado	service	telnet	Telnet service
+privilegiado	show	acl	ACL configuration
+privilegiado	show	alarm	<Group> alarm command group
+privilegiado	show	arp	Arp information
+privilegiado	show	cpu	Show used percent of cpu
+privilegiado	show	current-config	Show current configuration
+privilegiado	show	daemons	Show list of running daemons
+privilegiado	show	dba-profile	<Group> DBA profile configuration command group
+privilegiado	show	debug	Debug information
+privilegiado	show	debugging	Debugging functions (see also 'undebug')
+privilegiado	show	device	show device information
+privilegiado	show	dns	Domain Name Server
+privilegiado	show	dot1p-mapping-table	Dot1p-mapping-table
+privilegiado	show	event	<Group> event command group
+privilegiado	show	fan	Show fan information
+privilegiado	show	fib	FIB status and configuration information
+privilegiado	show	file	User file system information
+privilegiado	show	firmware	Firmware information
+privilegiado	show	flash	User flash file
+privilegiado	show	igmp	<Group> Igmp snooping command group
+privilegiado	show	interface	<Group> interface command group
+privilegiado	show	ip	IP information
+privilegiado	show	ipv6	IPv6 information
+privilegiado	show	isis	IS-IS information
+privilegiado	show	limit	System limited time information
+privilegiado	show	link-aggregation	Change into link-aggregation command mode
+privilegiado	show	log	Show log information
+privilegiado	show	logging	Show logging information
+privilegiado	show	loopback-detection	Detect if loopback exists
+privilegiado	show	mac-address	<Group> mac-address command group
+privilegiado	show	memory	Memory statistics
+privilegiado	show	mirror	Mirror information
+privilegiado	show	mld	<Group> MLD snooping command group
+privilegiado	show	multicast-vlan	Multicast vlan configuration
+privilegiado	show	nas	Display NAS information
+privilegiado	show	ndp	Ndp information
+privilegiado	show	ntp-service	NTP service status and configuration information
+privilegiado	show	ont	<Group> ont command group
+privilegiado	show	ont-digitmap-profile	<Group> ont digital map profile configuration command group
+privilegiado	show	ont-line-profile	<Group> line profile configuration command group
+privilegiado	show	ont-pots-profile	<Group> ont pots profile configuration command group
+privilegiado	show	ont-sipagent-profile	<Group> ont sip agent profile configuration command group
+privilegiado	show	ont-siprightflag-profile	<Group> ont sip right flag profile configuration command group
+privilegiado	show	ont-srv-profile	<Group> SRV profile configuration command group
+privilegiado	show	ont-tr069-profile	<Group> ont tr069 profile configuration command group
+privilegiado	show	ont-type-profile	<Group> ont-type-profile configuration command group
+privilegiado	show	ont-wan-profile	<Group> ont Wan profile configuration command group
+privilegiado	show	ont-wifiprofile	ONT Wifi profile
+privilegiado	show	optical-alarm-profile	<Group> Optical alarm profile configuration command group
+privilegiado	show	ospf	OSPF information
+privilegiado	show	packet	packet receive and transmit
+privilegiado	show	packet-filter	Packet filter configuration
+privilegiado	show	power	Power info
+privilegiado	show	progress	Show progress
+privilegiado	show	radius	Display RADIUS client information
+privilegiado	show	saved-config	Show the saved configuration information
+privilegiado	show	service	Service
+privilegiado	show	service-port	Service port configuration
+privilegiado	show	sfp	Show sfp threshold
+privilegiado	show	snmp-agent	<Group> snmp-agent command group
+privilegiado	show	statistics	Service port statistic
+privilegiado	show	system	System resources
+privilegiado	show	table	default routing table to use for all clients
+privilegiado	show	tacacs+	Display TACACS+ client information
+privilegiado	show	temperature	Temperature information
+privilegiado	show	time	show system time
+privilegiado	show	timezone	Display current time zone
+privilegiado	show	traffic	Port.
+privilegiado	show	traffic-limit	Traffic limit configuration
+privilegiado	show	traffic-mirror	Traffic mirror configuration
+privilegiado	show	traffic-profile	<Group> traffic profile command group
+privilegiado	show	traffic-redirect	Traffic redirect configuration
+privilegiado	show	traffic-remark	Traffic remark configuration
+privilegiado	show	traffic-statistic	Traffic statistic configuration
+privilegiado	show	traffic-vlanmap	Traffic vlanmap configuration
+privilegiado	show	uptime	Show system uptime
+privilegiado	show	user	Show loal user by name cmd
+privilegiado	show	version	Displays ospf6d version
+privilegiado	show	vlan	Vlan status and configuration information
+privilegiado	show	zebra	Zebra informationClient information
+privilegiado	show acl	<2000-6999>	ACL ID: <2000-2999>basic acl/<3000-4999>advanced acl/<5000-5999>link acl/<6000-6999>user acl
+privilegiado	show acl	all	All ACL
+privilegiado	show acl	ipv6	IPv6 information
+privilegiado	show alarm	active	Display active alarm information
+privilegiado	show alarm	alarmlevel	Alarm level
+privilegiado	show alarm	history	Display history alarm information
+privilegiado	show alarm	list	Show alarm list
+privilegiado	show arp	all	All entry
+privilegiado	show arp	config	Arp config information
+privilegiado	show arp	dynamic	Dynamic entry
+privilegiado	show arp	history	Arp history information
+privilegiado	show arp	static	Static entry
+privilegiado	show arp	vlanif	Vlan interface
+privilegiado	show cpu	history	The history cpu utilization
+privilegiado	show cpu	<cr>	- Please press ENTER to execute
+privilegiado	show current-config	exclude	Match the character strings excluding with the regular expression
+privilegiado	show current-config	include	Match the character strings including with the regular expression
+privilegiado	show current-config	section	Section
+privilegiado	show current-config	<cr>	- Please press ENTER to execute
+privilegiado	show daemons	<cr>	- Please press ENTER to execute
+privilegiado	show dba-profile	all	All DBA profiles
+privilegiado	show dba-profile	profile-id	By profile ID
+privilegiado	show dba-profile	profile-name	By profile name
+privilegiado	show debug	nas	NAS information
+privilegiado	show debug	radius	RADIUS information
+privilegiado	show debug	tacc	TACACS+ information
+privilegiado	show debug	<cr>	- Please press ENTER to execute
+privilegiado	show debugging	bgp	BGP information
+privilegiado	show debugging	isis	IS-IS information
+privilegiado	show debugging	ospf	OSPF information
+privilegiado	show debugging	ospf6	Open Shortest Path First (OSPF) for IPv6
+privilegiado	show debugging	rip	RIP information
+privilegiado	show debugging	ripng	RIPng information
+privilegiado	show debugging	zebra	Zebra configuration
+privilegiado	show device	<cr>	- Please press ENTER to execute
+privilegiado	show dns	server	Domain name server IP address
+privilegiado	show dot1p-mapping-table	all	all
+privilegiado	show dot1p-mapping-table	table-id	By table-id
+privilegiado	show dot1p-mapping-table	table-name	table-name
+privilegiado	show event	eventlevel	Event level
+privilegiado	show event	history	Display history event information
+privilegiado	show event	list	Show event list
+privilegiado	show fan	<cr>	- Please press ENTER to execute
+privilegiado	show fib	A.B.C.D	Destination IP address
+privilegiado	show fib	A.B.C.D/M	Network IP prefix (e.g. 10.0.0.0/8)
+privilegiado	show fib	<cr>	- Please press ENTER to execute
+privilegiado	show file	FILE-NAME	User file name. <S><Length 1-64>
+privilegiado	show file	<cr>	- Please press ENTER to execute
+privilegiado	show firmware	info	Information
+privilegiado	show flash	file	User file system information
+privilegiado	show flash	<cr>	- Please press ENTER to execute
+privilegiado	show igmp	config	Igmp-snooping config info
+privilegiado	show igmp	group	Igmp-snooping group info
+privilegiado	show interface	loopback	Loopback interface
+privilegiado	show interface	mgmt	Management ethernet interface
+privilegiado	show interface	vlanif	VLAN interface
+privilegiado	show ip	bgp	BGP information
+privilegiado	show ip	forwarding	IP forwarding status
+privilegiado	show ip	interface	Status and configuration information for the interface
+privilegiado	show ip	rip	Show RIP routes
+privilegiado	show ip	route	IP routing table
+privilegiado	show ipv6	forwarding	Forwarding status
+privilegiado	show ipv6	mroute	IPv6 Multicast routing table
+privilegiado	show ipv6	ospf6	Open Shortest Path First (OSPF) for IPv6
+privilegiado	show ipv6	ripng	Show RIPng routes
+privilegiado	show ipv6	route	IPv6 routing table
+privilegiado	show isis	database	IS-IS link state database
+privilegiado	show isis	hostname	IS-IS Dynamic hostname mapping
+privilegiado	show isis	interface	ISIS interface
+privilegiado	show isis	summary	IS-IS summary
+privilegiado	show isis	topology	IS-IS paths to Intermediate Systems
+privilegiado	show limit	<cr>	- Please press ENTER to execute
+privilegiado	show link-aggregation	all	All of the link aggregation groups
+privilegiado	show link-aggregation	group	group
+privilegiado	show log	all	show all log information
+privilegiado	show log	logon	Show logon log information
+privilegiado	show log	operate	Show operation log information
+privilegiado	show logging	buffer	Logbuffer status and information
+privilegiado	show logging	configure	Show current logging configuration
+privilegiado	show loopback-detection	port	Port
+privilegiado	show loopback-detection	<cr>	- Please press ENTER to execute
+privilegiado	show mac-address	all	Show all MAC addresses
+privilegiado	show mac-address	black-hole	Show all black-hole MAC addresses
+privilegiado	show mac-address	dynamic	Show all dynamic MAC addresses
+privilegiado	show mac-address	location	Show MAC address location
+privilegiado	show mac-address	port	Show MAC address by port
+privilegiado	show mac-address	static	Show all static MAC addresses
+privilegiado	show mac-address	timer	MAC addresses timer
+privilegiado	show mac-address	vlan	Show MAC address by vlan
+privilegiado	show memory	all	Memory all
+privilegiado	show memory	app	APP memory
+privilegiado	show memory	bgp	BGP memory
+privilegiado	show memory	isis	ISIS memory
+privilegiado	show memory	lib	Library memory
+privilegiado	show memory	ospf	OSPF memory
+privilegiado	show memory	ospf6	OSPF6 memory
+privilegiado	show memory	rip	RIP memory
+privilegiado	show memory	ripng	RIPng memory
+privilegiado	show memory	zebra	Zebra memory
+privilegiado	show memory	<cr>	- Please press ENTER to execute
+privilegiado	show mirror	<cr>	- Please press ENTER to execute
+privilegiado	show mld	config	MLD-snooping config
+privilegiado	show mld	group	MLD-snooping group info
+privilegiado	show multicast-vlan	<1-4094>	Multicast vlan. <U><1-4094>
+privilegiado	show multicast-vlan	all	All multicast vlan
+privilegiado	show nas	user	Display NAS user information
+privilegiado	show ndp	all	All entry
+privilegiado	show ndp	dynamic	Dynamic entry
+privilegiado	show ndp	history	Ndp history information
+privilegiado	show ndp	static	Static entry
+privilegiado	show ndp	vlanif	Vlan interface
+privilegiado	show ntp-service	status	Display the ststus of NTP service
+privilegiado	show ont	autofind	Automatically found ONT
+privilegiado	show ont	blacklist	Authentication blacklist
+privilegiado	show ont	capability	ONT capability set
+privilegiado	show ont	config-capability	ONT configuration capability set
+privilegiado	show ont	disable-info	disable status ont info
+privilegiado	show ont	info	ONT information
+privilegiado	show ont	moving-check	ONT authentication moving check
+privilegiado	show ont	mult-srv-profile	Mult-srv-profile
+privilegiado	show ont	port	<Group> port command group
+privilegiado	show ont	register-statistics	ONT register statistics
+privilegiado	show ont	run-info	ONT run-state information
+privilegiado	show ont	status-count	ONT status count
+privilegiado	show ont	version	ONT version information
+privilegiado	show ont autofind	F/S	FrameID/SlotID. <S><0-0>/<0-0>
+privilegiado	show ont autofind	all	All ONTS in the port
+privilegiado	show ont info	F/S	FrameID/SlotID. <S><0-0>/<0-0>
+privilegiado	show ont info	all	All ONTS in the port
+privilegiado	show ont info	by-desc	By description
+privilegiado	show ont info	by-loid	By loid
+privilegiado	show ont info	by-password	By password
+privilegiado	show ont info	by-sn	By serial number
+privilegiado	show ont port	attribute	ONT port attributes
+privilegiado	show ont port	car	ONT ethernet port CAR function
+privilegiado	show ont port	learned-mac	The mac that the ont learned
+privilegiado	show ont port	multicast-group	The multicast group table
+privilegiado	show ont-digitmap-profile	all	Show all ONT digital map profiles
+privilegiado	show ont-digitmap-profile	profile-id	Digital map profile ID
+privilegiado	show ont-digitmap-profile	profile-name	Digital map profile name
+privilegiado	show ont-line-profile	gpon	GPON type
+privilegiado	show ont-pots-profile	all	Show all ONT pots profiles
+privilegiado	show ont-pots-profile	profile-id	Pots profile ID
+privilegiado	show ont-pots-profile	profile-name	Pots profile name
+privilegiado	show ont-sipagent-profile	all	Show all ONT sip agent profiles
+privilegiado	show ont-sipagent-profile	profile-id	Sip agent profile ID
+privilegiado	show ont-sipagent-profile	profile-name	Sip agent profile name
+privilegiado	show ont-siprightflag-profile	all	Show all ONT sip right flag profiles
+privilegiado	show ont-siprightflag-profile	profile-id	Ont sip right profile ID
+privilegiado	show ont-siprightflag-profile	profile-name	Ont sip right profile name
+privilegiado	show ont-srv-profile	gpon	GPON type
+privilegiado	show ont-tr069-profile	all	Show all ONT tr069 profiles
+privilegiado	show ont-tr069-profile	profile-id	Tr069 profile ID
+privilegiado	show ont-tr069-profile	profile-name	Tr069 profile name
+privilegiado	show ont-type-profile	gpon	GPON type
+privilegiado	show ont-wan-profile	gpon	GPON Wan
+privilegiado	show ont-wifiprofile	gpon	GPON Wifi
+privilegiado	show optical-alarm-profile	all	All Optical alarm profiles
+privilegiado	show optical-alarm-profile	profile-id	By profile ID
+privilegiado	show optical-alarm-profile	profile-name	By profile name
+privilegiado	show ospf	<cr>	- Please press ENTER to execute
+privilegiado	show packet	statistic	packet statistic
+privilegiado	show packet-filter	inbound	Inbound
+privilegiado	show power	state	Show power number and state
+privilegiado	show progress	load	Show the load progress station
+privilegiado	show radius	configuration	Current configuration information
+privilegiado	show saved-config	<cr>	- Please press ENTER to execute
+privilegiado	show service	default	Default policy
+privilegiado	show service	http	Http service
+privilegiado	show service	https	Https service
+privilegiado	show service	snmp	Snmp service
+privilegiado	show service	ssh	Ssh service
+privilegiado	show service	status	Status
+privilegiado	show service	telnet	Telnet service
+privilegiado	show service-port	<1-8192>	Index of service-port. <U><1-8192>
+privilegiado	show service-port	SRVPORT-LIST	Index list of service-port. <U><1-8192>(e.g.:1,11-27,100)
+privilegiado	show service-port	all	All service-port
+privilegiado	show service-port	gpon	GPON Port
+privilegiado	show service-port	statistics	Service port statistic
+privilegiado	show service-port	vlan	VLAN ID. <U><1-4094>
+privilegiado	show sfp	threshold	Sfp threshold of Temp/Voltage/Bias/Tx power/Rx power
+privilegiado	show snmp-agent	config	Show snmp configuration
+privilegiado	show snmp-agent	sys-info	Display the system information of SNMP agent
+privilegiado	show statistics	service-port	Service port configuration
+privilegiado	show system	multicast-group	Multicast group
+privilegiado	show table	<cr>	- Please press ENTER to execute
+privilegiado	show temperature	threshold	Temperature threshold
+privilegiado	show temperature	<cr>	- Please press ENTER to execute
+privilegiado	show time	dst	Display current DST's setting of system
+privilegiado	show time	<cr>	- Please press ENTER to execute
+privilegiado	show timezone	<cr>	- Please press ENTER to execute
+privilegiado	show traffic	all	port  Ge port.
+privilegiado	show traffic-limit	all	port  Ge port.
+privilegiado	show traffic-mirror	all	port  Ge port.
+privilegiado	show traffic-profile	all	Display all traffic profile
+privilegiado	show traffic-profile	profile-id	Profile ID
+privilegiado	show traffic-profile	profile-name	Profile name
+privilegiado	show traffic-redirect	all	port  Ge port.
+privilegiado	show traffic-remark	all	port  Ge port.
+privilegiado	show traffic-statistic	all	port  Ge port.
+privilegiado	show traffic-vlanmap	all	port  Ge port.
+privilegiado	show uptime	<cr>	- Please press ENTER to execute
+privilegiado	show user	all	Show all local user
+privilegiado	show user	name	name
+privilegiado	show version	ospf6	<cr> - Please press ENTER to execute
+privilegiado	show vlan	<1-4094>	VLAN ID. <U><1-4094>
+privilegiado	show vlan	all	All the VLANs
+privilegiado	telnet	HOST	IP address of a remote system
+privilegiado	terminal	debugging	Copy debug output to the current terminal
+privilegiado	terminal	length	Set number of lines on a screen
+privilegiado	terminal	monitor	Copy loginfo output to the current terminal
+privilegiado	traceroute	WORD	Trace route to destination address or hostname
+privilegiado	traceroute	ip	IP trace
+privilegiado	traceroute	ipv6	IPv6 trace
+privilegiado	undebug	all	Enable all debugging
+privilegiado	undebug	bgp	BGP information
+configuración	(raíz)	access-list	Add an access list entry
+configuración	(raíz)	acl	ACL configuration
+configuración	(raíz)	alarm	<Group> alarm command group
+configuración	(raíz)	arp	Specify ARP configuration information
+configuración	(raíz)	auto-backup	<Group> autobackup command group
+configuración	(raíz)	auto-save	<Group> autosave command group
+configuración	(raíz)	backup	<Group> backup command group
+configuración	(raíz)	clear	Reset functions
+configuración	(raíz)	cms-connect	CMS Connect
+configuración	(raíz)	dba-profile	<Group> DBA profile configuration command group
+configuración	(raíz)	dhcp	<Group> DHCP command group
+configuración	(raíz)	dhcp-relay	<Group> DHCP relay command group
+configuración	(raíz)	dhcp-server	Dhcp server configuration command
+configuración	(raíz)	dhcp-snooping	<Group> DHCP snooping command group
+configuración	(raíz)	dhcpv6	<Group> DHCPV6 command group
+configuración	(raíz)	dhcpv6-relay	<Group> DHCPV6 relay command group
+configuración	(raíz)	dhcpv6-server	<Group> DHCPv6 server command group
+configuración	(raíz)	dns	Domain Name Server
+configuración	(raíz)	dot1p-mapping-table	Dot1p-mapping-table
+configuración	(raíz)	dscp-mapping-table	Dscp-mapping-table
+configuración	(raíz)	end	End current mode and change to enable mode
+configuración	(raíz)	event	<Group> event command group
+configuración	(raíz)	exec-timeout	Set the EXEC timeout
+configuración	(raíz)	exit	Exit current mode and down to previous mode
+configuración	(raíz)	fan	<Group> Fan command group
+configuración	(raíz)	file	<Group>File system group
+configuración	(raíz)	firmware	FirmWare
+configuración	(raíz)	flash	User flash
+configuración	(raíz)	igmp	<Group> Igmp snooping command group
+configuración	(raíz)	interface	<Group> interface command group
+configuración	(raíz)	ip	IP information
+configuración	(raíz)	ip-source	IP source guard config
+configuración	(raíz)	ipconfig-profile	<Group> Ipconfig profile configuration command group
+configuración	(raíz)	ipv6	IPv6 information
+configuración	(raíz)	key	Authentication key management
+configuración	(raíz)	kill	Release a user terminal interface
+configuración	(raíz)	lacp	Link Aggregation Control Protocol
+configuración	(raíz)	limit	System limit
+configuración	(raíz)	link-aggregation	Change into link-aggregation command mode
+configuración	(raíz)	lldp	<Group> LLDP command group
+configuración	(raíz)	logging	Logging control
+configuración	(raíz)	logout	Log off this system
+configuración	(raíz)	loopback-detection	Detect if loopback exists
+configuración	(raíz)	mac-address	<Group> mac-address command group
+configuración	(raíz)	mld	<Group> MLD snooping command group
+configuración	(raíz)	mstp	mstp
+configuración	(raíz)	multicast-vlan	Multicast vlan common
+configuración	(raíz)	ndp	Specify NDP configuration information
+configuración	(raíz)	no	Negate a command or set its defaults
+configuración	(raíz)	ntp-service	Ntp-service
+configuración	(raíz)	ont	<Group> ont command group
+configuración	(raíz)	ont-auto-upgrade-task	ONT auto-upgrade task
+configuración	(raíz)	ont-digitmap-profile	<Group> digital map profile configuration command group
+configuración	(raíz)	ont-line-profile	<Group> line profile configuration command group
+configuración	(raíz)	ont-pots-profile	<Group> ont pots profile configuration command group
+configuración	(raíz)	ont-sipagent-profile	<Group> sipagent profile configuration command group
+configuración	(raíz)	ont-siprightflag-profile	<Group> ont sip right profile configuration command group
+configuración	(raíz)	ont-srv-profile	<Group> sevprofile profile configuration command group
+configuración	(raíz)	ont-tr069-profile	<Group> tr069 profile configuration command group
+configuración	(raíz)	ont-type-profile	<Group> onu type profile configuration command group
+configuración	(raíz)	ont-upgrade	ONT upgrade
+configuración	(raíz)	ont-wan-profile	<Group> Onu Wan profile configuration command group
+configuración	(raíz)	ont-wifi-profile	<Group> Onu Wifi profile configuration command group
+configuración	(raíz)	optical-alarm-profile	<Group> Optical alarm profile configuration command group
+configuración	(raíz)	ospf	Start OSPF configuration
+configuración	(raíz)	packet-filter	Packet filter configuration
+configuración	(raíz)	ping	Send echo messages
+configuración	(raíz)	ping6	Send echo messages
+configuración	(raíz)	pon	<Group> PON port command group
+configuración	(raíz)	pppoe	PPPOE Plus(intermedia agent)
+configuración	(raíz)	protect-group	<Group> Protect-group configuration command group
+configuración	(raíz)	qos-scheduler-profile	qos-scheduler-profile
+configuración	(raíz)	reconfig	reconfig file
+configuración	(raíz)	reset	Reset system
+configuración	(raíz)	route-map	Create route-map or enter route-map command mode
+configuración	(raíz)	router	Enable a routing process
+configuración	(raíz)	router-id	Manually set the router-id
+configuración	(raíz)	save	save configuration to file
+configuración	(raíz)	service	Service
+configuración	(raíz)	service-port	Service port configuration
+configuración	(raíz)	show	Show running system information
+configuración	(raíz)	snmp-agent	<Group> snmp-agent command group
+configuración	(raíz)	startup	Configure parameter for system to startup
+configuración	(raíz)	statistics	Statistics information
+configuración	(raíz)	stp	Spanning Tree Protocol
+configuración	(raíz)	syslog	Syslog control
+configuración	(raíz)	sysname	Set system's network name
+configuración	(raíz)	table	Configure target kernel routing table
+configuración	(raíz)	telnet	Telnet function
+configuración	(raíz)	temperature	<Group>System Temperature
+configuración	(raíz)	time	Time Range configuration
+configuración	(raíz)	timezone	Set time zone
+configuración	(raíz)	traceroute	Trace route to destination
+configuración	(raíz)	traffic-filter	Traffic filter configuration
+configuración	(raíz)	traffic-limit	Traffic limit rate configuration
+configuración	(raíz)	traffic-mirror	Traffic mirror configuration
+configuración	(raíz)	traffic-profile	<Group> traffic profile command group
+configuración	(raíz)	traffic-redirect	Traffic redirect configuration
+configuración	(raíz)	traffic-remark	Traffic remark configuration
+configuración	(raíz)	traffic-statistic	Traffic statistic configuration
+configuración	(raíz)	traffic-vlanmap	Traffic vlanmap configuration
+configuración	(raíz)	usb	Usb operation command
+configuración	(raíz)	user	user
+configuración	(raíz)	user-bridge	User-bridge
+configuración	(raíz)	vlan	Virtual LAN
+configuración	(raíz)	vlan-pool	VLAN pool configuration
+configuración	(raíz)	web	web common
+configuración	access-list	<1-99>	IP standard access list
+configuración	access-list	<100-199>	IP extended access list
+configuración	access-list	<1300-1999>	IP standard access list (expanded range)
+configuración	access-list	<2000-2699>	IP extended access list (expanded range)
+configuración	access-list	WORD	IP zebra access-list name
+configuración	acl	<2000-6999>	ACL ID: <2000-2999>basic acl/<3000-4999>advanced acl/<5000-5999>link acl/<6000-6999>user acl
+configuración	acl	ipv6	IPv6 information
+configuración	alarm	alarmlevel	Set alarm level
+configuración	alarm	history	History alarm information
+configuración	alarm	jitter-interval	Set the interval of alarm jitter-proof
+configuración	alarm	led	Set alarm led
+configuración	alarm	output	Set alarm Cli output flag
+configuración	arp	aging-time	Aging-time
+configuración	arp	dynamic-detect	Arp dynamic-detect
+configuración	arp	gratuitous-arp	Gratuitous arp
+configuración	arp	learn-limit-num	Arp learn limited number
+configuración	arp	mac-address	Mac address
+configuración	arp	quick-update	Quick-update
+configuración	arp	static	Static ARP entry
+configuración	auto-backup	configuration	<Group> configuration  file command group
+configuración	auto-backup	log	<Group> log file command group
+configuración	auto-save	configuration	<Group> configuration file command group
+configuración	backup	log-file	Log file
+configuración	backup	saved-config	Saved config
+configuración	clear	ip	IP information
+configuración	cms-connect	server-url	Cms server URL address
+configuración	dba-profile	profile-id	By profile ID
+configuración	dba-profile	profile-name	By profile name
+configuración	dba-profile	<cr>	- Please press ENTER to execute
+configuración	dhcp	option82	<Group> DHCP option82 command group
+configuración	dhcp	security-table	DHCP security table
+configuración	dhcp-relay	disable	Disable
+configuración	dhcp-relay	enable	Enable
+configuración	dhcp-relay	server	DHCP server group
+configuración	dhcp-relay	vlan	DHCP relay vlan
+configuración	dhcp-server	<cr>	- Please press ENTER to execute
+configuración	dhcp-snooping	chaddr-check	DHCP snooping chaddr check
+configuración	dhcp-snooping	disable	Disable DHCP snooping
+configuración	dhcp-snooping	enable	Enable DHCP snooping
+configuración	dhcp-snooping	limit-rate	DHCP snooping limit rate
+configuración	dhcp-snooping	trust	DHCP snooping trust port
+configuración	dhcpv6	interface-id	<Group> DHCPV6 interface-id command group
+configuración	dhcpv6	option18	<Group> DHCPV6 option18 command group (L2)
+configuración	dhcpv6	option37	<Group> DHCPV6 option37 command group (L2)
+configuración	dhcpv6	pool	DHCPV6 pool
+configuración	dhcpv6	remote-id	<Group> DHCPV6 remote-id command group
+configuración	dhcpv6-relay	disable	Disable
+configuración	dhcpv6-relay	enable	Enable
+configuración	dhcpv6-relay	server	DHCPV6 server group
+configuración	dhcpv6-server	disable	DHCPv6 server disable
+configuración	dhcpv6-server	enable	DHCPv6 server enable
+configuración	dns	server	Config the main-ip-address,such as X.X.X.X
+configuración	dns	server-bak	Config the back-ip-address,such as X.X.X.X
+configuración	dot1p-mapping-table	table-id	By table ID
+configuración	dot1p-mapping-table	table-name	By table name
+configuración	dot1p-mapping-table	<cr>	- Please press ENTER to execute
+configuración	dscp-mapping-table	table-id	By table ID
+configuración	dscp-mapping-table	table-name	By table name
+configuración	dscp-mapping-table	<cr>	- Please press ENTER to execute
+configuración	end	<cr>	- Please press ENTER to execute
+configuración	event	eventlevel	Set event level
+configuración	event	history	History event information
+configuración	event	output	Set event Cli output flag
+configuración	exec-timeout	<1-36000>	Timeout in seconds
+configuración	exit	<cr>	- Please press ENTER to execute
+configuración	fan	speed	Set fan speed
+configuración	file	delete	File delete operation
+configuración	firmware	switch	Switch to the another FirmWare
+configuración	flash	file	<Group>File system group
+configuración	igmp	control-packet	Igmp control packet
+configuración	igmp	fast-leave	Igmp fast leave
+configuración	igmp	general-query-interval	General query interval keyword
+configuración	igmp	general-query-response	General query max response keyword
+configuración	igmp	mode	Igmp mode
+configuración	igmp	policy	Igmp join packet policy
+configuración	igmp	querier	Querier cofnig
+configuración	igmp	robustness	Robustness keyword
+configuración	igmp	source-ip	Source ip of igmp message
+configuración	igmp	special-query-count	Specific query keyword
+configuración	igmp	special-query-interval	Specific query interval keyword
+configuración	igmp	special-query-response	Specific query max response keyword
+configuración	igmp	static-group	Static group
+configuración	igmp	user	User keyword
+configuración	interface	ge	GigabitEthernet interface
+configuración	interface	gpon	GPON interface
+configuración	interface	loopback	Change into loopback command mode
+configuración	interface	mgmt	Change into mgmt command mode
+configuración	interface	vlanif	Change into vlanif command mode
+configuración	interface	xge	GigabitEthernet interface
+configuración	ip	forwarding	Turn on IP forwarding
+configuración	ip	prefix-list	Build a prefix list
+configuración	ip	route	Establish static routes
+configuración	ip	route-default	Establish default route
+configuración	ip-source	check	Check packets
+configuración	ipconfig-profile	gpon	GPON type
+configuración	ipv6	forwarding	Turn on IPv6 forwarding
+configuración	ipv6	route	Establish static routes
+configuración	key	chain	Key-chain management
+configuración	kill	user-interface	The user terminal interface
+configuración	lacp	system	System
+configuración	limit	day	System limit day
+configuración	link-aggregation	group	group
+configuración	lldp	disable	Disable lldp
+configuración	lldp	enable	Enable lldp
+configuración	lldp	fast-count	Number of LLDPDUs send in a fast transmissions
+configuración	lldp	hold-multipliter	a multiplier of msgTxInterval
+configuración	lldp	port	Port
+configuración	lldp	timer	Lldp timer
+configuración	logging	buffer	Set logfile (buffer) logging level
+configuración	logging	console	Set stdout (console) logging level
+configuración	logging	monitor	Set terminal (monitor) logging level
+configuración	logout	<cr>	- Please press ENTER to execute
+configuración	loopback-detection	disable	Disable port loopback detection
+configuración	loopback-detection	enable	Enable port loopback detection
+configuración	loopback-detection	interval-time	Set loopback detection interval time
+configuración	mac-address	black-hole	Black hole MAC address
+configuración	mac-address	flapping	Flapping
+configuración	mac-address	flush	Flush MAC address
+configuración	mac-address	learning	Dynamic MAC learning switch
+configuración	mac-address	limit	Set max mac learn limit of the port
+configuración	mac-address	static	Static MAC address
+configuración	mac-address	timer	MAC address aging timer
+configuración	mld	fast-leave	MLD fast leave
+configuración	mld	general-query-interval	General query interval keyword
+configuración	mld	general-query-response	General query max response keyword
+configuración	mld	mode	MLD mode
+configuración	mld	policy	MLD join packet policy
+configuración	mld	querier	Querier cofnig
+configuración	mld	robustness	Robustness keyword
+configuración	mld	source-ipv6	Source ipv6 of mld message
+configuración	mld	special-query-count	Specific query keyword
+configuración	mld	special-query-interval	Specific query interval keyword
+configuración	mld	special-query-response	Specific query max response keyword
+configuración	mld	static-group	Static group
+configuración	mstp	trace	trace
+configuración	multicast-vlan	<1-4094>	Multicast vlan. <U><1-4094>
+configuración	ndp	aging-time	Aging-time
+configuración	ndp	learn-limit-num	Ndp learn limited number
+configuración	ndp	static	Static NDP entry
+configuración	no	access-list	Add an access list entry
+configuración	no	acl	ACL configuration
+configuración	no	alarm	<Group> alarm command group
+configuración	no	arp	Specify ARP configuration information
+configuración	no	auto-backup	Auto backup log file
+configuración	no	cms-connect	CMS Connect
+configuración	no	dba-profile	<Group> DBA profile configuration command group
+configuración	no	dhcp	<Group> DHCP command group
+configuración	no	dhcp-relay	<Group> DHCP relay command group
+configuración	no	dhcp-server	Dhcp server configuration command
+configuración	no	dhcp-snooping	<Group> DHCP snooping command group
+configuración	no	dhcpv6	<Group> DHCPV6 command group
+configuración	no	dhcpv6-relay	<Group> DHCPv6 relay command group
+configuración	no	dns	Domain Name Server
+configuración	no	dot1p-mapping-table	Dot1p-mapping-table
+configuración	no	dscp-mapping-table	Dscp-mapping-table
+configuración	no	event	<Group> event command group
+configuración	no	exec-timeout	Set the EXEC timeout
+configuración	no	igmp	<Group> Igmp snooping command group
+configuración	no	interface	<Group> interface command group
+configuración	no	ip	IP information
+configuración	no	ip-source	IP source guard config
+configuración	no	ipconfig-profile	<Group> Ipconfig profile configuration command group
+configuración	no	ipv6	IPv6 information
+configuración	no	key	Authentication key management
+configuración	no	link-aggregation	Change into link-aggregation command mode
+configuración	no	lldp	<Group> LLDP command group
+configuración	no	logging	Logging control
+configuración	no	loopback-detection	Detect if loopback exists
+configuración	no	mac-address	<Group> mac-address command group
+configuración	no	mld	<Group> MLD snooping command group
+configuración	no	multicast-vlan	Multicast vlan common
+configuración	no	ndp	Specify NDP configuration information
+configuración	no	ntp-service	Ntp-service
+configuración	no	ont	<Group> ont command group
+configuración	no	ont-auto-upgrade-task	ONT auto-upgrade task
+configuración	no	ont-digitmap-profile	<Group> ont digital map profile configuration command group
+configuración	no	ont-line-profile	<Group> Line profile configuration command group
+configuración	no	ont-pots-profile	<Group> ont pots profile configuration command group
+configuración	no	ont-sipagent-profile	<Group> ont sip agent profile configuration command group
+configuración	no	ont-siprightflag-profile	<Group> ont sip right flag profile configuration command group
+configuración	no	ont-srv-profile	<Group> SRV profile configuration command group
+configuración	no	ont-tr069-profile	<Group> ont tr069 profile configuration command group
+configuración	no	ont-type-profile	<Group> ont-typeprofile configuration command group
+configuración	no	ont-upgrade	ONT upgrade
+configuración	no	ont-wan-profile	<Group> ont-wan-profile configuration command group
+configuración	no	ont-wifiprofile	ONT Wifi profile
+configuración	no	optical-alarm-profile	<Group> Optical alarm profile configuration command group
+configuración	no	ospf	Start OSPF configuration
+configuración	no	packet-filter	Packet filter configuration
+configuración	no	pppoe	PPPOE Plus(intermedia agent)
+configuración	no	protect-group	<Group> Protect-group configuration command group
+configuración	no	qos-scheduler-profile	qos-scheduler-profile
+configuración	no	route-map	Create route-map or enter route-map command mode
+configuración	no	router	Enable a routing process
+configuración	no	router-id	Remove the manually configured router-id
+configuración	no	service	Service
+configuración	no	service-port	Service port configuration
+configuración	no	snmp-agent	<Group> snmp-agent command group
+configuración	no	startup	Configure parameter for system to startup
+configuración	no	stp	Spanning Tree Protocol
+configuración	no	syslog	Syslog control
+configuración	no	sysname	Reset system's network name
+configuración	no	temperature	<Group>System Temperature
+configuración	no	time	Set the information of DST
+configuración	no	traffic-filter	Traffic filter configuration
+configuración	no	traffic-limit	Traffic limit configuration
+configuración	no	traffic-mirror	Traffic mirror configuration
+configuración	no	traffic-profile	<Group> traffic profile command group
+configuración	no	traffic-redirect	Traffic redirect configuration
+configuración	no	traffic-remark	Traffic remark configuration
+configuración	no	traffic-statistic	Traffic statistic configuration
+configuración	no	traffic-vlanmap	Traffic vlanmap configuration
+configuración	no	user	user
+configuración	no	vlan	Virtual LAN
+configuración	no	vlan-pool	VLAN pool configuration
+configuración	ntp-service	client	Switch of the ntp client
+configuración	ntp-service	refclock-master	Reference clock
+configuración	ntp-service	server	Switch of the ntp server
+configuración	ntp-service	sync-interval	Set the interval of clock synchronization
+configuración	ont	auth-vendor	Ont auth vendor management
+configuración	ont	auto-aging	ONT auto aging
+configuración	ont	autofind	ONT autofind switch
+configuración	ont	blacklist	Authentication blacklist
+configuración	ont	default	Default SN format
+configuración	ont	moving-check	ONT authentication moving check
+configuración	ont	mult-srv-profile	Mult-srv-profile
+configuración	ont	port	<Group> port command group
+configuración	ont	pptp-prohibit	Prohibit ONU pptp configuration delivery
+configuración	ont	quiet-period	Quiet period time after auth fail
+configuración	ont	upgrade-vendor	Ont upgrade vendor management
+configuración	ont-auto-upgrade-task	<1-64>	Task id. <U><1-64>
+configuración	ont-digitmap-profile	gpon	GPON type
+configuración	ont-line-profile	gpon	GPON type
+configuración	ont-pots-profile	gpon	GPON type
+configuración	ont-sipagent-profile	gpon	GPON type
+configuración	ont-siprightflag-profile	gpon	GPON type
+configuración	ont-srv-profile	gpon	GPON type
+configuración	ont-tr069-profile	gpon	GPON type
+configuración	ont-type-profile	gpon	GPON type
+configuración	ont-upgrade	F/S	FrameID/SlotID.
+configuración	ont-wan-profile	gpon	GPON Wan
+configuración	ont-wifi-profile	gpon	GPON Wifi
+configuración	optical-alarm-profile	profile-id	By profile ID
+configuración	optical-alarm-profile	profile-name	By profile name
+configuración	optical-alarm-profile	<cr>	- Please press ENTER to execute
+configuración	ospf	<cr>	- Please press ENTER to execute
+configuración	packet-filter	clear-counters	Clear counters
+configuración	packet-filter	inbound	Apply the acl on inbound packets of the interface
+configuración	packet-filter	outbound	Apply the acl on outbound packets of the interface
+configuración	ping	HOST	Ping destination address or hostname
+configuración	ping6	HOST	Ping destination address or hostname
+configuración	pon	native-vlan	Current trunk port PVID forward config
+configuración	pppoe	agent	intermedia agent
+configuración	protect-group	group-id	By group ID
+configuración	protect-group	group-name	By group name
+configuración	protect-group	<cr>	- Please press ENTER to execute
+configuración	qos-scheduler-profile	profile-id	By profile ID
+configuración	qos-scheduler-profile	profile-name	By profile name
+configuración	qos-scheduler-profile	<cr>	- Please press ENTER to execute
+configuración	reconfig	<cr>	- Please press ENTER to execute
+configuración	reset	arp	Arp entry
+configuración	reset	igmp	<Group> Igmp snooping command group
+configuración	reset	key	Reset system by key
+configuración	reset	lldp	<Group> LLDP command group
+configuración	reset	mac-address	Mac-address
+configuración	reset	mld	<Group> MLD snooping command group
+configuración	reset	ndp	Ndp entry
+configuración	route-map	WORD	Route map tag
+configuración	router	bgp	BGP information
+configuración	router	isis	ISO IS-IS
+configuración	router	ospf	Start OSPF configuration
+configuración	router	ospf6	Open Shortest Path First (OSPF) for IPv6
+configuración	router	rip	RIP
+configuración	router-id	A.B.C.D	IP address to use for router-id
+configuración	save	STRING	STRING<5-64> the name of specific file(*.cfg)
+configuración	save	<cr>	- Please press ENTER to execute
+configuración	service	default	Default policy
+configuración	service	http	Http service
+configuración	service	https	Https service
+configuración	service	snmp	Snmp service
+configuración	service	ssh	Ssh service
+configuración	service	telnet	Telnet service
+configuración	service-port	<1-8192>	Index of service-port. <U><1-8192>
+configuración	service-port	SRVPORT-LIST	Index list of service-port. <U><1-8192>(e.g.:1,11-27,100)
+configuración	service-port	autoindex	System auto select index for service-port
+configuración	service-port	desc	Set the description of service-port. <S><Length 1-16>
+configuración	service-port	statistics	Service virtual port statistic
+configuración	show	acl	ACL configuration
+configuración	show	alarm	<Group> alarm command group
+configuración	show	arp	Arp information
+configuración	show	auto-backup	<Group> auto-backup command group
+configuración	show	auto-save	<Group> autosave command group
+configuración	show	cms-connect	cms-connect
+configuración	show	cpu	Show used percent of cpu
+configuración	show	current-config	Show current configuration
+configuración	show	dba-profile	<Group> DBA profile configuration command group
+configuración	show	debug	Debug information
+configuración	show	debugging	Debugging functions (see also 'undebug')
+configuración	show	device	show device information
+configuración	show	dhcp	<Group> DHCP command group
+configuración	show	dhcp-relay	<Group> DHCP relay command group
+configuración	show	dhcp-server	Dhcp server configuration command
+configuración	show	dhcp-snooping	<Group> DHCP snooping command group
+configuración	show	dhcpv6	<Group> DHCPV6 command group
+configuración	show	dhcpv6-relay	<Group> DHCPV6 relay command group
+configuración	show	diagnostic-information	System information for diagnosis
+configuración	show	dns	Domain Name Server
+configuración	show	dot1p-mapping-table	Dot1p-mapping-table
+configuración	show	dscp-mapping-table	Dscp-mapping-table
+configuración	show	event	<Group> event command group
+configuración	show	exec-timeout	Timeout in seconds
+configuración	show	fan	Show fan information
+configuración	show	fib	FIB status and configuration information
+configuración	show	file	User file system information
+configuración	show	firmware	Firmware information
+configuración	show	flash	User flash file
+configuración	show	igmp	<Group> Igmp snooping command group
+configuración	show	interface	<Group> interface command group
+configuración	show	ip	IP information
+configuración	show	ip-source	IP source guard config
+configuración	show	ipconfig-profile	<Group> Ipconfig-profile configuration command group
+configuración	show	ipv6	IPv6 information
+configuración	show	limit	System limited time information
+configuración	show	link-aggregation	Change into link-aggregation command mode
+configuración	show	lldp	<Group> LLDP command group
+configuración	show	log	Show log information
+configuración	show	loopback-detection	Detect if loopback exists
+configuración	show	mac-address	<Group> mac-address command group
+configuración	show	memory	Show used percent of memory
+configuración	show	mirror	Mirror information
+configuración	show	mld	<Group> MLD snooping command group
+configuración	show	multicast-vlan	Multicast vlan configuration
+configuración	show	nas	Display NAS information
+configuración	show	ndp	Ndp information
+configuración	show	ntp-service	NTP service status and configuration information
+configuración	show	ont	<Group> ont command group
+configuración	show	ont-auto-upgrade-task	ONT auto-upgrade task
+configuración	show	ont-digitmap-profile	<Group> ont digital map profile configuration command group
+configuración	show	ont-line-profile	<Group> line profile configuration command group
+configuración	show	ont-pots-profile	<Group> ont pots profile configuration command group
+configuración	show	ont-sipagent-profile	<Group> ont sip agent profile configuration command group
+configuración	show	ont-siprightflag-profile	<Group> ont sip right flag profile configuration command group
+configuración	show	ont-srv-profile	<Group> SRV profile configuration command group
+configuración	show	ont-tr069-profile	<Group> ont tr069 profile configuration command group
+configuración	show	ont-type-profile	<Group> ont-type-profile configuration command group
+configuración	show	ont-upgrade	ONT auto-upgrade
+configuración	show	ont-wan-profile	<Group> ont Wan profile configuration command group
+configuración	show	ont-wifiprofile	ONT Wifi profile
+configuración	show	optical-alarm-profile	<Group> Optical alarm profile configuration command group
+configuración	show	ospf	OSPF information
+configuración	show	packet-filter	Packet filter configuration
+configuración	show	port	Port statistics
+configuración	show	power	Power info
+configuración	show	pppoe	PPPOE Plus(intermedia agent)
+configuración	show	progress	Show progress
+configuración	show	protect-group	<Group> Protect-group configuration command group
+configuración	show	qos-scheduler-profile	qos-scheduler-profile
+configuración	show	radius	Display RADIUS client information
+configuración	show	rip	Show RIP routes
+configuración	show	route-map	route-map information
+configuración	show	saved-config	Show the saved configuration information
+configuración	show	service	Service
+configuración	show	service-port	Service port configuration
+configuración	show	sfp	Show sfp threshold
+configuración	show	snmp-agent	<Group> snmp-agent command group
+configuración	show	startup	Display the configuration for startup
+configuración	show	statistics	Service port statistic
+configuración	show	stp	Spanning Tree Protocol
+configuración	show	syslog	Syslog configuration
+configuración	show	system	System resources
+configuración	show	tacacs+	Display TACACS+ client information
+configuración	show	temperature	Temperature information
+configuración	show	time	show system time
+configuración	show	timezone	Display current time zone
+configuración	show	traffic	Port.
+configuración	show	traffic-filter	Traffic filter configuration
+configuración	show	traffic-limit	Traffic limit configuration
+configuración	show	traffic-mirror	Traffic mirror configuration
+configuración	show	traffic-profile	<Group> traffic profile command group
+configuración	show	traffic-redirect	Traffic redirect configuration
+configuración	show	traffic-remark	Traffic remark configuration
+configuración	show	traffic-statistic	Traffic statistic configuration
+configuración	show	traffic-vlanmap	Traffic vlanmap configuration
+configuración	show	uptime	Show system uptime
+configuración	show	usb	Usb operation
+configuración	show	user	user
+configuración	show	version	Displays ospf6d version
+configuración	show	vlan	Vlan status and configuration information
+configuración	show	vlan-pool	VLAN pool configuration
+configuración	show alarm	active	Display active alarm information
+configuración	show alarm	alarmlevel	Alarm level
+configuración	show alarm	history	Display history alarm information
+configuración	show alarm	list	Show alarm list
+configuración	show device	<cr>	- Please press ENTER to execute
+configuración	show firmware	info	Information
+configuración	show interface	loopback	Loopback interface
+configuración	show interface	mgmt	Management ethernet interface
+configuración	show interface	vlanif	VLAN interface
+configuración	show ont	auth-vendor	Ont auth vendor info
+configuración	show ont	auto-aging	ONT auto aging
+configuración	show ont	autofind	Automatically found ONT
+configuración	show ont	blacklist	Authentication blacklist
+configuración	show ont	capability	ONT capability set
+configuración	show ont	config-capability	ONT configuration capability set
+configuración	show ont	default	Default SN format
+configuración	show ont	info	ONT information
+configuración	show ont	learned-mac	The mac that the ont learned
+configuración	show ont	moving-check	ONT authentication moving check
+configuración	show ont	mult-srv-profile	Mult-srv-profile
+configuración	show ont	port	<Group> port command group
+configuración	show ont	pptp-prohibit	Prohibit ONU pptp configuration delivery
+configuración	show ont	quiet-period	Quiet period time after auth fail
+configuración	show ont	upgrade-vendor	Ont upgrade vendor info
+configuración	show ont	version	ONT version information
+configuración	show ont autofind	all	All ONTS in the port
+configuración	show ont info	F/S	FrameID/SlotID. <S><0-0>/<0-0>
+configuración	show ont info	all	All ONTS in the port
+configuración	show ont info	by-desc	By description
+configuración	show ont info	by-loid	By loid
+configuración	show ont info	by-password	By password
+configuración	show ont info	by-sn	By serial number
+configuración	show ont port	attribute	ONT port attributes
+configuración	show ont port	car	ONT ethernet port CAR function
+configuración	show ont port	learned-mac	The mac that the ont learned
+configuración	show ont port	multicast-group	The multicast group table
+configuración	snmp-agent	community	Set a community for the access of SNMPv1 or SNMPv2c
+configuración	snmp-agent	group	SNMP group based on USM
+configuración	snmp-agent	sys-info	Set system information of the node
+configuración	snmp-agent	trap	Specify trap host target address
+configuración	snmp-agent	usm-user	User for access to SNMP entity based on USM
+configuración	startup	saved-configuration	Saved-configuration file for system to startup
+configuración	statistics	interval	statistics updata interval
+configuración	stp	bpdu-filter	STP BPDU filter
+configuración	stp	bpdu-protection	Specify BPDU protection function
+configuración	stp	disable	Disable Spanning Tree Protocol
+configuración	stp	enable	Enable Spanning Tree Protocol
+configuración	stp	instance	Spanning tree instance
+configuración	stp	max-hops	Specify max hops
+configuración	stp	mode	Specify state machine mode
+configuración	stp	pathcost-standard	Specify STP port path cost standard
+configuración	stp	port	Port
+configuración	stp	priority	Specify bridge priority
+configuración	stp	recovery	The error recovery timeout
+configuración	stp	region-configuration	Enter MSTP region view
+configuración	stp	timer	Specify timer configuration
+configuración	stp	transmit-limit	Specify transmission limit count
+configuración	syslog	disable	Specify syslog host disable
+configuración	syslog	enable	Specify syslog host enable
+configuración	syslog	facility	Facility parameter for syslog messages
+configuración	syslog	facility-mapping	Facility-mapping
+configuración	syslog	host	Settings of syslog host configuration
+configuración	syslog	severity	Set syslog severity level
+configuración	sysname	NAME	This system's network name. <S><Length 1-64>
+configuración	table	TABLENO	TABLE integer
+configuración	telnet	HOST	IP address of a remote system
+configuración	temperature	threshold-high	System temperature alarm high-threshold
+configuración	time	YYYY/MM/DD-HH:MM:SS	Modify system date and time. <S><YYYY/MM/DD-HH:MM:SS>
+configuración	time	dst	Set the information of DST
+configuración	timezone	gmt+	Set east of time zone
+configuración	timezone	gmt-	Set west of time zone
+configuración	traceroute	WORD	Trace route to destination address or hostname
+configuración	traceroute	ip	IP trace
+configuración	traceroute	ipv6	IPv6 trace
+configuración	traffic-filter	clear-counters	Clear counters
+configuración	traffic-filter	inbound	Apply the acl on inbound packets of the interface
+configuración	traffic-filter	outbound	Apply the acl on outbound packets of the interface
+configuración	traffic-limit	inbound	Apply the acl on inbound packets of the interface
+configuración	traffic-limit	outbound	Apply the acl on outbound packets of the interface
+configuración	traffic-mirror	inbound	Apply the acl on inbound packets of the interface
+configuración	traffic-profile	cir	Committed Information Rate
+configuración	traffic-profile	profile-id	Profile ID
+configuración	traffic-profile	profile-name	Profile name
+configuración	traffic-redirect	inbound	Apply the acl on inbound packets of the interface
+configuración	traffic-remark	inbound	Apply the acl on inbound packets of the interface
+configuración	traffic-remark	outbound	Apply the acl on outbound packets of the interface
+configuración	traffic-statistic	clear-counters	Clear counters
+configuración	traffic-statistic	inbound	Apply the acl on inbound packets of the interface
+configuración	traffic-statistic	outbound	Apply the acl on outbound packets of the interface
+configuración	traffic-vlanmap	inbound	Apply the acl on inbound packets of the interface
+configuración	usb	file	<Group>File system group
+configuración	user	login	login
+configuración	user	name	name
+configuración	user-bridge	global	Global User-bridge
+configuración	vlan	VLANLIST	VLAN list. <L><1-4094>(e.g.:1,11-27,100)
+configuración	vlan	description	Specify VLAN description
+configuración	vlan-pool	pool-id	VLAN pool id
+configuración	vlan-pool	pool-name	VLAN pool name
+configuración	web	logout-time	Logout Time
+configuración	web	server	web server
+GPON	(raíz)	alarm	alarm
+GPON	(raíz)	anti-rogueont	Anti rogue ont
+GPON	(raíz)	bandwidth-alarm	Bandwidth alarm
+GPON	(raíz)	encryption	ONU encryption
+GPON	(raíz)	end	End current mode and change to enable mode.
+GPON	(raíz)	event	event
+GPON	(raíz)	exit	Exit current mode and down to previous mode
+GPON	(raíz)	fec	Forward error correction
+GPON	(raíz)	flow-control	Enable/Disable flowctrl
+GPON	(raíz)	frame-max	Maximum frame size
+GPON	(raíz)	isolate	Enable/Disable port isolate
+GPON	(raíz)	key-exchange-interval	Key Exchange process interval.
+GPON	(raíz)	lldp	<Group> LLDP command group
+GPON	(raíz)	loopback-detection	Detect if loopback exists
+GPON	(raíz)	mac-address	<Group> mac-address command group
+GPON	(raíz)	mirror	Add mirror
+GPON	(raíz)	no	Negate a command or set its defaults
+GPON	(raíz)	ont	<Group> ont command group
+GPON	(raíz)	optical-alarm-profile	Optical alarm profile
+GPON	(raíz)	port	<Group> port command group
+GPON	(raíz)	port-desc	Config port description
+GPON	(raíz)	port-rate	Port Rate Configuration
+GPON	(raíz)	pstnport	Bind Pots Profile
+GPON	(raíz)	qos-mapping	Qos-mapping
+GPON	(raíz)	qos-remark	Qos-remark
+GPON	(raíz)	reset	Reset
+GPON	(raíz)	show	Show running system information
+GPON	(raíz)	shutdown	Disable port(s)
+GPON	(raíz)	sippstnuser	<Group> sippstnuser command group
+GPON	(raíz)	statistics	Statistics information
+GPON	(raíz)	traffic-suppress	Set port traffic suppression
+GPON	(raíz)	transceiver-compat	Transceiver compatibility
+GPON	(raíz)	vlan	<Group> VLAN command group
+GPON	alarm	report	report alarm
+GPON	anti-rogueont	auto-check	Auto check
+GPON	anti-rogueont	auto-isolate	Auto isolate
+GPON	anti-rogueont	manual-check	Manual check
+GPON	anti-rogueont	manual-detect	Manual detect
+GPON	bandwidth-alarm	threshold	Threshold
+GPON	encryption	disable	Disable encryption
+GPON	encryption	enable	Enable encryption
+GPON	end	<cr>	- Please press ENTER to execute
+GPON	event	report	report event
+GPON	exit	<cr>	- Please press ENTER to execute
+GPON	fec	PORTID	Pon Port ID. <U>
+GPON	flow-control	PORT-LIST	Port List. <L>(e.g:1,2-3,4)
+GPON	frame-max	PORT-LIST	Port List. <L>(e.g:1,2-3,4)
+GPON	isolate	PORT-LIST	Port List. <L>(e.g:1,2-3,4)
+GPON	key-exchange-interval	<1000-3600>	Interval.<U><1000-3600>(uint:ms)
+GPON	lldp	PORT-LIST	Port List. <L>(e.g:1,2-3,4)
+GPON	loopback-detection	PORTLIST	Port List. <L>(e.g:1,2-3,4)
+GPON	mac-address	flapping	Flapping
+GPON	mac-address	limit	Set max mac learn limit of the port
+GPON	mirror	group	Mirror group
+GPON	no	frame-max	Maximum frame size
+GPON	no	key-exchange-interval	Key Exchange process interval.
+GPON	no	lldp	<Group> LLDP command group
+GPON	no	loopback-detection	Detect if loopback exists
+GPON	no	mirror	Delete mirror
+GPON	no	ont	<Group> ont command group
+GPON	no	optical-alarm-profile	Optical alarm profile
+GPON	no	port	<Group> port command group
+GPON	no	port-desc	Config port description
+GPON	no	port-rate	Port Rate Configuration
+GPON	no	qos-mapping	Qos-mapping
+GPON	no	shutdown	Enable port(s)
+GPON	no	sippstnuser	<Group> sippstnuser command group
+GPON	no	statistics	Statistics information
+GPON	ont	activate	Activate ONT(s)
+GPON	ont	add	Add an ONT
+GPON	ont	authmode	ONT authentication mode
+GPON	ont	auto-aging	ONT auto aging
+GPON	ont	auto-reboot	Ont auto reboot
+GPON	ont	autofind	ONT autofind switch
+GPON	ont	blacklist	Authentication blacklist
+GPON	ont	cancel	Delete the automatically found ONT(s)
+GPON	ont	confirm	Confirm the automatically found ONT(s)
+GPON	ont	deactivate	Deactivate ONT(s)
+GPON	ont	delete	Delete ONT(s)
+GPON	ont	description	ONT description
+GPON	ont	disable	Disable ont
+GPON	ont	enable	Enable ont
+GPON	ont	end-device-control	End device control
+GPON	ont	fec	Configure the upstream FEC function
+GPON	ont	gemport	Bind the GEM to the ONU
+GPON	ont	internet-config	ONT IP configuration internet
+GPON	ont	ipconfig	ONT IP configuration
+GPON	ont	l2mapping-model	Layer 2 traffic mapping models
+GPON	ont	loopdetect	Ring check function
+GPON	ont	mac-aging	ONT MAC-address aging function
+GPON	ont	mac-learning	ONT MAC-address learning function
+GPON	ont	mapping-mode	Set the ont gem mapping mode
+GPON	ont	modify	Modify ONT
+GPON	ont	moving-check	ONT authentication moving check
+GPON	ont	multicast	Multicast parameter configuration
+GPON	ont	native-vlan	ONT Native-VLAN option function
+GPON	ont	omcc	Configure the ONT management and control channel
+GPON	ont	ont-port	<Group> ONT port's capability set command group
+GPON	ont	optical-alarm-profile	Optical alarm profile
+GPON	ont	policy-auth	ONT authentication policy
+GPON	ont	port	<Group> ont port command group
+GPON	ont	qos-mode	Set the onu's QoS mode
+GPON	ont	rate-limiter	Ont rate limiter
+GPON	ont	re-enable	Re-enable isolate rogue ont
+GPON	ont	re-register	Re-register ONT(s)
+GPON	ont	reboot	reboot
+GPON	ont	restore-factory	Restore factory configuration
+GPON	ont	security-mgmt	Configure security management of ONU
+GPON	ont	sn	SN authentication type
+GPON	ont	synchronize-time	ONT auto synchronize-time
+GPON	ont	tcont	Bind the T-CONT to the ONU
+GPON	ont	tr069	ONT TR069 config
+GPON	ont	tr069-profile	ONT config the TR069 profile
+GPON	ont	veip	<Group> veip command group
+GPON	ont	wan	WAN config
+GPON	ont	wan-profile	Modify ONT wan profile
+GPON	ont	wifi	ONT wifi config
+GPON	ont	wifi-profile	ONT config the wifi profile
+GPON	ont activate	PORTID	Pon Port ID. <U>
+GPON	ont add	PORTID	Pon Port ID. <U>
+GPON	ont add 1 1	loid-auth	LOID authentication type
+GPON	ont add 1 1	password-auth	Password authentication type
+GPON	ont add 1 1	sn-auth	SN authentication type
+GPON	ont add 1 1 sn-auth	SN-VALUE	ONT serial number. <S><Length 12, 13, 16>(XXXXXXXXXXXX,  XXXX-XXXXXXXX, XXXXXXXXXXXXXXXX)
+GPON	ont add 1 1 sn-auth <SN>	mult-srv-profile	mult-srv-profile
+GPON	ont add 1 1 sn-auth <SN>	ont-lineprofile-id	ONT line profile ID
+GPON	ont add 1 1 sn-auth <SN>	ont-lineprofile-name	ONT line profile name
+GPON	ont add 1 1 sn-auth <SN>	password-auth	Password authentication type
+GPON	ont add 1 1 sn-auth <SN>	<cr>	- Please press ENTER to execute
+GPON	ont authmode	PORTID	Pon Port ID. <U>
+GPON	ont authmode	all	All ports
+GPON	ont auto-aging	PORTID	Pon Port ID. <U>
+GPON	ont auto-reboot	PORTID	Pon Port ID. <U>
+GPON	ont autofind	PORTID	Pon Port ID. <U>
+GPON	ont blacklist	add	Add an entry
+GPON	ont blacklist	delete	Delete an entry
+GPON	ont cancel	PORTID	Pon Port ID. <U>
+GPON	ont confirm	PORTID	Pon Port ID. <U>
+GPON	ont confirm 1 loid-auth	LOID-VALUE	LOID. <s><Length 1-24>
+GPON	ont confirm 1 password-auth	PASSWORD-VALUE	ONT password. <S><Length 1-10>
+GPON	ont confirm 1 sn-auth	SN-VALUE	ONT serial number. <S><Length 12, 13, 16>(XXXXXXXXXXXX,  XXXX-XXXXXXXX, XXXXXXXXXXXXXXXX)
+GPON	ont confirm 1 sn-auth <SN>	mult-srv-profile	mult-srv-profile
+GPON	ont confirm 1 sn-auth <SN>	ont-lineprofile-id	ONT line profile ID
+GPON	ont confirm 1 sn-auth <SN>	ont-lineprofile-name	ONT line profile name
+GPON	ont confirm 1 sn-auth <SN>	password-auth	Password authentication type
+GPON	ont confirm 1 sn-auth <SN> ont-lineprofile-id	<0-2300>	Profile ID. <U><0-2300>
+GPON	ont confirm 1 sn-auth <SN> ont-lineprofile-id 1	ont-srvprofile-id	ONT service profile ID
+GPON	ont confirm 1 sn-auth <SN> ont-lineprofile-id 1	ont-srvprofile-name	ONT service profile name
+GPON	ont confirm 1 sn-auth <SN> ont-lineprofile-id 1 ont-srvprofile-id	<0-2300>	Profile ID. <U><0-2300>
+GPON	ont confirm 1 sn-auth <SN> ont-lineprofile-id 1 ont-srvprofile-id 1	<cr>	- Please press ENTER to execute
+GPON	ont deactivate	PORTID	Pon Port ID. <U>
+GPON	ont delete	PORTID	Pon Port ID. <U>
+GPON	ont description	PORTID	Pon Port ID. <U>
+GPON	ont disable	PORTID	Pon Port ID. <U>
+GPON	ont enable	PORTID	Pon Port ID. <U>
+GPON	ont end-device-control	PORTID	Pon Port ID. <U>
+GPON	ont fec	PORTID	Pon Port ID. <U>
+GPON	ont gemport	PORTID	Pon Port ID. <U>
+GPON	ont gemport	mapping	GEM mapping configuration
+GPON	ont internet-config	PORTID	Pon Port ID. <U>
+GPON	ont ipconfig	PORTID	Pon Port ID. <U>
+GPON	ont l2mapping-model	PORTID	Pon Port ID. <U>
+GPON	ont loopdetect	PORTID	Pon Port ID. <U>
+GPON	ont mac-aging	PORTID	Pon Port ID. <U>
+GPON	ont mac-learning	PORTID	Pon Port ID. <U>
+GPON	ont mapping-mode	PORTID	Pon Port ID. <U>
+GPON	ont modify	PORTID	Pon Port ID. <U>
+GPON	ont moving-check	disable	Disable
+GPON	ont moving-check	enable	Enable
+GPON	ont multicast	fast-leave	Set multicast fast leave mode
+GPON	ont multicast	max-group	Set igmp max play groups
+GPON	ont multicast	mode	Set multicast mode
+GPON	ont multicast	version	Set multicast version
+GPON	ont native-vlan	PORTID	Pon Port ID. <U>
+GPON	ont omcc	encrypt	Config the OMCC channel encryption
+GPON	ont ont-port	PORTID	Pon Port ID. <U>
+GPON	ont optical-alarm-profile	PORTID	Pon Port ID. <U>
+GPON	ont policy-auth	PORTID	Pon Port ID. <U>
+GPON	ont port	attribute	Attribute
+GPON	ont port	car	ONT ethernet port CAR function
+GPON	ont port	description	Description
+GPON	ont port	igmp-forward	Set ONT IGMP up forward datagrams forwarding mode
+GPON	ont port	multicast-forward	Set ONT IGMP down forward datagrams forwarding mode
+GPON	ont port	multicast-vlan	Multicast vlan.
+GPON	ont port	native-vlan	Default VLAN
+GPON	ont port	q-in-q	QinQ mode
+GPON	ont port	vlan	VLAN configuration on a port
+GPON	ont qos-mode	PORTID	Pon Port ID. <U>
+GPON	ont rate-limiter	PORTID	Pon Port ID. <U>
+GPON	ont re-enable	PORTID	Pon Port ID. <U>
+GPON	ont re-register	PORTID	Pon Port ID. <U>
+GPON	ont reboot	PORTID	Pon Port ID. <U>
+GPON	ont restore-factory	PORTID	Pon Port ID. <U>
+GPON	ont security-mgmt	PORTID	Pon Port ID. <U>
+GPON	ont sn	binde	Ont bind sn function
+GPON	ont synchronize-time	PORTID	Pon Port ID. <U>
+GPON	ont synchronize-time	all	All ont
+GPON	ont tcont	PORTID	Pon Port ID. <U>
+GPON	ont tr069	PORTID	Pon Port ID. <U>
+GPON	ont tr069-profile	PORTID	Pon Port ID. <U>
+GPON	ont veip	PORTID	Pon Port ID. <U>
+GPON	ont wan	PORTID	Pon Port ID. <U>
+GPON	ont wan-profile	PORTID	Pon Port ID. <U>
+GPON	ont wifi	PORTID	Pon Port ID. <U>
+GPON	ont wifi-profile	PORTID	Pon Port ID. <U>
+GPON	optical-alarm-profile	PORTID	Pon Port ID. <U>
+GPON	optical-alarm-profile	all	All pon ports
+GPON	port	PORTID	Port ID. <U>
+GPON	port-desc	PORTID	Port Id.
+GPON	port-rate	PORT-LIST	Port List. <L>(e.g:1,2-3,4)
+GPON	pstnport	electric	Bind Pots Profile
+GPON	qos-mapping	port	Port
+GPON	qos-remark	port	Port
+GPON	reset	statistics	Statistics information
+GPON	show	anti-rogueont	Anti rogue ont
+GPON	show	encryption	Encryption info.
+GPON	show	key-exchange	Key exchange info.
+GPON	show	loopback-detection	Detect if loopback exists
+GPON	show	mirror	Mirror information
+GPON	show	ont	<Group> ont command group
+GPON	show	port	Port
+GPON	show	sippstnuser	<Group> sippstnuser command group
+GPON	show	statistics	Statistics information
+GPON	show	this	gpon current-config
+GPON	show anti-rogueont	PORTID	Pon Port ID. <U>
+GPON	show anti-rogueont	all	ALL isolate rogue-onu info
+GPON	show anti-rogueont	auto-check	Auto check
+GPON	show anti-rogueont	auto-detect	Auto detect
+GPON	show anti-rogueont	auto-isolate	Auto isolate
+GPON	show encryption	<cr>	- Please press ENTER to execute
+GPON	show key-exchange	<cr>	- Please press ENTER to execute
+GPON	show loopback-detection	port	Port
+GPON	show loopback-detection	<cr>	- Please press ENTER to execute
+GPON	show mirror	<cr>	- Please press ENTER to execute
+GPON	show ont	auto-reboot	Ont auto reboot
+GPON	show ont	autofind	Automatically found ONT
+GPON	show ont	blacklist	Authentication blacklist
+GPON	show ont	capability	ONT capability set
+GPON	show ont	catv-info	CATV information
+GPON	show ont	config-capability	ONT configuration capability set
+GPON	show ont	disable-info	disable status ont info
+GPON	show ont	distance	ONT distance information
+GPON	show ont	end-device-control	End device control
+GPON	show ont	failed-config	ONT failed configuration
+GPON	show ont	info	ONT information
+GPON	show ont	ipconfig	ONT IP configuration
+GPON	show ont	moving-check	ONT authentication moving check
+GPON	show ont	mult-srv-profile	Mult-srv-profile
+GPON	show ont	optical-info	optical-info
+GPON	show ont	policy-auth	Policy macth rule.
+GPON	show ont	port	<Group> port command group
+GPON	show ont	register-statistics	ONT register statistics
+GPON	show ont	run-info	ONT run-state information
+GPON	show ont	status-count	ONT status count
+GPON	show ont	tr069	ONT config the TR069 config
+GPON	show ont	version	ONT version information
+GPON	show ont	wan	WAN config
+GPON	show ont	wifi	WIFI config
+GPON	show ont auto-reboot	atimer-list	Auto reboot absolute timer list
+GPON	show ont auto-reboot	rtimer-list	Auto reboot relative timer list
+GPON	show ont autofind	F/S	FrameID/SlotID. <S><0-0>/<0-0>
+GPON	show ont autofind	all	All ONTS in the port
+GPON	show ont autofind 0/0	PORTID	Pon Port ID. <U>
+GPON	show ont autofind 0/0 1	all	All ONTS in the port
+GPON	show ont autofind 0/0 1	sn	By serial number
+GPON	show ont autofind all	brief	Brief information
+GPON	show ont autofind all	<cr>	Please press ENTER to execute
+GPON	show ont blacklist	<cr>	- Please press ENTER to execute
+GPON	show ont capability	PORTID	Pon Port ID. <U>
+GPON	show ont catv-info	PORTID	Pon Port ID. <U>
+GPON	show ont config-capability	PORTID	Pon Port ID. <U>
+GPON	show ont disable-info	<cr>	- Please press ENTER to execute
+GPON	show ont distance	PORTID	Pon Port ID. <U>
+GPON	show ont distance	all	All ONTS in the device
+GPON	show ont end-device-control	alarm-threshold	Alarm threshold of session and user
+GPON	show ont end-device-control	session-user-num	Num of session and user
+GPON	show ont failed-config	PORTID	Pon Port ID. <U>
+GPON	show ont info	PORTID	Pon Port ID. <U>
+GPON	show ont info	all	All ONTS in the port
+GPON	show ont info	by-desc	By description
+GPON	show ont info	by-loid	By loid
+GPON	show ont info	by-password	By password
+GPON	show ont info	by-sn	By serial number
+GPON	show ont info 1 1	<cr>	- Please press ENTER to execute
+GPON	show ont info 1 all	online	Only online ONUs are displayed
+GPON	show ont info 1 all	sn-format	SN format
+GPON	show ont info 1 all	<cr>	- Please press ENTER to execute
+GPON	show ont info all	online	Only online ONUs are displayed
+GPON	show ont info all	sn-format	SN format
+GPON	show ont info all	<cr>	- Please press ENTER to execute
+GPON	show ont info by-sn	SN-VALUE	ONT serial number. <S><Length 12,13,16>(XXXXXXXXXXXX, XXXX-XXXXXXXX, XXXXXXXXXXXXXXXX)
+GPON	show ont ipconfig	PORTID	Pon Port ID. <U>
+GPON	show ont moving-check	<cr>	- Please press ENTER to execute
+GPON	show ont mult-srv-profile	gpon	GPON type
+GPON	show ont optical-info	PORTID	Pon Port ID. <U>
+GPON	show ont optical-info 1	<1-128>	ONT ID
+GPON	show ont optical-info 1	all	All ONTs on the port
+GPON	show ont optical-info 1 1	<cr>	Please press ENTER to execute
+GPON	show ont optical-info 1 all	<cr>	- Please press ENTER to execute
+GPON	show ont policy-auth	PORTID	Pon Port ID. <U>
+GPON	show ont port	attribute	ONT port attributes
+GPON	show ont port	car	ONT ethernet port CAR function
+GPON	show ont port	learned-mac	The mac that the ont learned
+GPON	show ont port	multicast-group	The multicast group table
+GPON	show ont port	state	ONT port state
+GPON	show ont port attribute	PORTID	Pon Port ID. <U>
+GPON	show ont port car	PORTID	Pon Port ID. <U>
+GPON	show ont port learned-mac	PORTID	Pon Port ID. <U>
+GPON	show ont port multicast-group	PORTID	Pon Port ID. <U>
+GPON	show ont port state	PORTID	Pon Port ID. <U>
+GPON	show ont register-statistics	PORTID	Pon Port ID. <U>
+GPON	show ont register-statistics	all	All port
+GPON	show ont run-info	PORTID	Pon Port ID. <U>
+GPON	show ont run-info	all	All ONTS
+GPON	show ont status-count	brief	Brief
+GPON	show ont status-count	<cr>	- Please press ENTER to execute
+GPON	show ont tr069	PORTID	Pon Port ID. <U>
+GPON	show ont version	PORTID	Pon Port ID. <U>
+GPON	show ont wan	config	ONT wan configuration
+GPON	show ont wan	status	ONT wan status
+GPON	show ont wifi	config	ONT wifi configuration
+GPON	show port	PORTID	Pon Port ID. <U>
+GPON	show port	ddm-info	DDM information
+GPON	show port	info	GPON Port attribute and configuration
+GPON	show port	isolate	port isolate
+GPON	show port	state	Port state
+GPON	show port	vlan	VLAN information
+GPON	show sippstnuser	attribute	<Group> sippstnuser command group attributes
+GPON	show sippstnuser	digitmap	Bind digitmap profile
+GPON	show sippstnuser	ipconfig	Bind/Unbind IP or SIP agent profile
+GPON	show sippstnuser	rightflag	Sippstnuser service right configuration
+GPON	show statistics	current	Current (15min|1hour|interval) statistics
+GPON	show statistics	ethernet	Ethernet frame statistics
+GPON	show statistics	gem	Gem frame statistics
+GPON	show statistics	history	History (15min|1hour|interval) statistics
+GPON	show statistics	ont	Ont frame statistics
+GPON	show statistics	ont-eth-performance	ONT ethernet performance statistics
+GPON	show statistics	ont-gem-performance	ONT GEM performance statistics
+GPON	show statistics	ont-line-quality	Line quality
+GPON	show statistics	port	Port ID.
+GPON	show this	<cr>	- Please press ENTER to execute
+GPON	shutdown	PORT-LIST	Port List. <L>(e.g:1,2-3,4)
+GPON	sippstnuser	add	Add sippstnuser
+GPON	sippstnuser	del	Delete sippstnuser
+GPON	sippstnuser	digitmap	Bind digitmap profile
+GPON	sippstnuser	ipconfig	Bind/Unbind IP or SIP agent profile
+GPON	sippstnuser	modify	Modify sippstnuser
+GPON	sippstnuser	rightflag	Sippstnuser service right configuration
+GPON	sippstnuser	unconcern	Unconcern the SIP agent profile
+GPON	statistics	history	History information
+GPON	statistics	omci	Omci statistics status
+GPON	traffic-suppress	PORT-LIST	Port List. <L>(e.g:1,2-3,4)
+GPON	transceiver-compat	PORTID	Pon Port ID. <U>
+GPON	vlan	native-vlan	Specify current hybrid port PVID VLAN ID
+GPON	vlan	transparent	Transparent mode
