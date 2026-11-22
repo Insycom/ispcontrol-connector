@@ -9,6 +9,9 @@ Incorporar un proceso secundario `olt-api` compilado en Go dentro de **la misma 
 - `POST /api/v1/{cdata|wolk|tplink}/onts/pending`: ONT pendientes de autorización.
 - `POST /api/v1/{cdata|wolk|tplink}/onts/optical`: estado y potencia óptica por serial y PON opcional.
 - `POST /api/v1/{cdata|wolk|tplink}/onts/authorize`: autorizar una ONT con parámetros validados por driver.
+- `POST /api/v1/cdata/onts/registration`: fijar el registro de una ONT por serial en el estado habilitado o deshabilitado, conservando sus perfiles.
+- `POST /api/v1/cdata/onts/status`: consultar estado administrativo, operativo y de configuración, última caída y alarmas activas e históricas atribuibles a esa ONT.
+- `POST /api/v1/cdata/onts/reboot`: reiniciar una ONT por serial y seguir su retorno en línea.
 - `GET /health`: estado del proceso y versiones de drivers.
 
 Todos los POST reciben un JSON con `connection` (host, protocolo, puerto, autenticación) y `ont` cuando corresponda. Los endpoints son por fabricante, mientras los drivers se especializan por modelo/firmware. No aceptar comandos CLI arbitrarios.
@@ -41,13 +44,13 @@ Todos los POST reciben un JSON con `connection` (host, protocolo, puerto, autent
 2. Definir esquemas OpenAPI, errores, timeouts y pruebas contractuales sin tocar las OLT.
 3. Crear binario Go con endpoints simulados y pruebas automatizadas; integrar al build de la imagen.
 4. Investigar C-Data, Wolk y TP-Link **solo lectura** sobre equipos autorizados; guardar fixtures anonimizados y tests de parsers.
-5. Habilitar autorización únicamente con ONT de prueba y aprobación explícita; verificar resultado.
+5. Validar las tres escrituras en una ONT de laboratorio: autorizar desde pendientes; deshabilitar y rehabilitar el registro conservando la provisión; reiniciar y observar el retorno. Si se pierde el acuse del reinicio, devolver resultado indeterminado y reconciliar antes de admitir otra orden.
 6. Ejecutar CI, revisar seguridad, compatibilidad y publicación; habilitar funciones gradualmente.
 
 ## Criterios de aceptación
 - Sin cambios funcionales en el conector actual hasta activar explícitamente la integración.
 - Sin API OLT accesible desde la red externa del contenedor.
-- Las tres operaciones responden con JSON consistente y códigos de error documentados.
+- Las seis operaciones responden con JSON consistente y códigos de error documentados.
 - Credenciales no se almacenan ni aparecen en logs.
 - Tests de drivers con fixtures; pruebas de integración sin escrituras por defecto.
 - Builds públicos sin fuentes Go ni herramientas de compilación.
