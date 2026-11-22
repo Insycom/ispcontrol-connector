@@ -1,3 +1,4 @@
+import { runReservedJob } from "./reserved-job.js";
 import { syncQueueGraphs } from "./mikrotik/queue-graphs.js";
 import { readServiceTraffic } from "./routeros-client.js";
 import type {
@@ -49,16 +50,10 @@ export class CommandWorker {
         }
       }
 
-      for (const job of await this.api.claimJobs(5)) {
+      // Claim one job at a time: do not let queued local work exhaust its lease.
+      for (const job of await this.api.claimJobs(1)) {
         if (new Date(job.expiresAt) <= new Date()) continue;
-        await this.api.startJob(job.id);
-        try {
-          const result = await executeJob(job, this.trustBundle);
-          await this.api.completeJob(job.id, result);
-        } catch (cause: unknown) {
-          const error = cause instanceof Error ? cause.message : "Unknown error";
-          await this.api.failJob(job.id, error);
-        }
+        await runReservedJob(this.api, job.id, () => executeJob(job, this.trustBundle));
       }
     } catch (cause: unknown) {
       const message = cause instanceof Error ? cause.message : "Unknown error";

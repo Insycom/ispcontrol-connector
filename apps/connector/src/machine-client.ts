@@ -94,7 +94,7 @@ export class MachineClient {
   async claimJobs(): Promise<MachineJob[]> {
     const response = await this.request("/connector-api/v1/jobs/claim", {
       method: "POST",
-      body: JSON.stringify({ limit: 5 }),
+      body: JSON.stringify({ limit: 1 }),
     });
     return (await parseJsonOrThrow(response)) as MachineJob[];
   }
@@ -106,6 +106,13 @@ export class MachineClient {
     });
   }
 
+  async progressJob(jobId: string): Promise<void> {
+    await this.request(`/connector-api/v1/jobs/${jobId}/progress`, {
+      method: "POST",
+      body: JSON.stringify({ percent: 0 }),
+    });
+  }
+
   async completeJob(jobId: string, result: Record<string, unknown>): Promise<void> {
     await this.request(`/connector-api/v1/jobs/${jobId}/complete`, {
       method: "POST",
@@ -113,10 +120,10 @@ export class MachineClient {
     });
   }
 
-  async failJob(jobId: string, message: string): Promise<void> {
+  async failJob(jobId: string, message: string, retryable = false): Promise<void> {
     await this.request(`/connector-api/v1/jobs/${jobId}/fail`, {
       method: "POST",
-      body: JSON.stringify({ code: "EXECUTION_FAILED", message, retryable: false }),
+      body: JSON.stringify({ code: "EXECUTION_FAILED", message, retryable }),
     });
   }
 

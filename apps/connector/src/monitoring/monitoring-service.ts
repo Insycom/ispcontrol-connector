@@ -1,3 +1,4 @@
+import { runReservedJob } from "../reserved-job.js";
 import { syncQueueGraphs } from "../mikrotik/queue-graphs.js";
 import { readServiceTraffic } from "../routeros-client.js";
 import { randomUUID } from "node:crypto";
@@ -22,6 +23,7 @@ export class MonitoringService {
   private outboxTimer: NodeJS.Timeout | undefined;
   private sampleTimer: NodeJS.Timeout | undefined;
   private retentionTimer: NodeJS.Timeout | undefined;
+  private pollingJobs = false;
   private jobTimer: NodeJS.Timeout | undefined;
   private readonly lastChecks = new Map<string, number>();
   private running = false;
@@ -159,11 +161,12 @@ export class MonitoringService {
   }
 
   private async jobs(): Promise<void> {
+    if (this.pollingJobs) return;
+    this.pollingJobs = true;
     try {
       for (const job of await this.client.claimJobs()) {
         if (new Date(job.expiresAt) <= new Date()) continue;
-        await this.client.startJob(job.id);
-        try {
+        await runReservedJob(this.client, job.id, async () => {
           const payload = job.payload as {
             enabled?: boolean;
     serverId?: string;
@@ -218,14 +221,13 @@ export class MonitoringService {
                 : (() => {
                     throw new Error("Unsupported job type");
                   })();
-          await this.client.completeJob(job.id, result);
-        } catch (cause) {
-          const message = cause instanceof Error ? cause.message : "Unknown error";
-          await this.client.failJob(job.id, message);
-        }
+          return result;
+        });
       }
     } catch (cause) {
       logError("jobs.poll")(cause);
+    } finally {
+      this.pollingJobs = false;
     }
   }
 
