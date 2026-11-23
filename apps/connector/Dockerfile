@@ -16,9 +16,11 @@ RUN mkdir -p /var/lib/ispcontrol && chown ispcontrol:ispcontrol /var/lib/ispcont
 COPY --from=build --chown=ispcontrol:ispcontrol /app/dist ./dist
 COPY apps/connector/entrypoint.sh /entrypoint.sh
 RUN chmod 755 /entrypoint.sh
+COPY apps/connector/drivers /opt/ispcontrol/drivers
+RUN chmod 755 /opt/ispcontrol/drivers/install.mjs && ln -s /opt/ispcontrol/drivers/install.mjs /usr/local/bin/ispcontrol-driver
 ENTRYPOINT ["/entrypoint.sh"]
 VOLUME ["/var/lib/ispcontrol"]
 EXPOSE 9080
 HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
   CMD wget -q -O /dev/null http://127.0.0.1:9080/health || exit 1
-CMD ["node", "dist/main.js"]
+CMD ["/bin/sh", "/opt/ispcontrol/drivers/start.sh"]
