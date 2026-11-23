@@ -55,11 +55,12 @@ export class MachineClient {
     return identity;
   }
 
-  async heartbeat(metrics: Record<string, unknown>): Promise<void> {
-    await this.request("/connector-api/v1/heartbeat", {
+  async heartbeat(metrics: Record<string, unknown>): Promise<{oltDrivers?:string[]}> {
+    const response=await this.request("/connector-api/v1/heartbeat", {
       method: "POST",
       body: JSON.stringify(metrics),
     });
+    return await response.json() as {oltDrivers?:string[]};
   }
 
   async configuration(): Promise<MonitoredDeviceConfig[]> {

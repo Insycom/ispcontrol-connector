@@ -1,3 +1,4 @@
+import { DriverSelection } from "./driver-selection.js";
 import { ConnectorApiClient } from "./api-client.js";
 import { loadConfig } from "./config.js";
 import { ConnectionState } from "./connection-state.js";
@@ -30,6 +31,7 @@ if (config.enrollmentToken && !identity.accessToken) {
 
 const connectionState = new ConnectionState();
 const healthServer = new HealthServer(config.healthPort, connectionState);
+const drivers=new DriverSelection(config.dataDirectory);
 let heartbeat: Heartbeat | undefined;
 let commandWorker: CommandWorker | undefined;
 let monitoring: MonitoringService | undefined;
@@ -53,7 +55,7 @@ if (identity.apiKey) {
   heartbeat = new Heartbeat(
     apiClient,
     connectionState,
-    config.heartbeatIntervalMs,
+    config.heartbeatIntervalMs,drivers,
   );
   commandWorker = new CommandWorker(apiClient, trustBundle);
   commandWorker.start();
@@ -78,7 +80,8 @@ if (identity.apiKey) {
   await monitoring.start();
   const sendHeartbeat = async () => {
     try {
-      await machineClient.heartbeat({
+      const result=await machineClient.heartbeat({
+        oltDriverStatus:drivers.status,
         connectorVersion: CONNECTOR_VERSION,
         protocolVersion: 1,
         uptimeSeconds: Math.floor(uptime()),
@@ -91,6 +94,7 @@ if (identity.apiKey) {
         connectedRouters: 0,
         timestamp: new Date().toISOString(),
       });
+      void drivers.reconcile(result.oltDrivers);
       connectionState.connected();
     } catch {
       connectionState.disconnected();

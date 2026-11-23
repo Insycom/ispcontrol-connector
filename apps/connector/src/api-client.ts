@@ -2,7 +2,7 @@ import type { ConnectorIdentity } from "./identity.js";
 import type { TrustBundle } from "./machine-client.js";
 
 export type HeartbeatResult =
-  | { accepted: true; heartbeatIntervalMs?: number; heartbeatFields?: string[] | null }
+  | { accepted: true; oltDrivers?:string[]; heartbeatIntervalMs?: number; heartbeatFields?: string[] | null }
   | { accepted: false; status: number };
 
 export type ConnectorCommand = {
@@ -62,7 +62,7 @@ export class ConnectorApiClient {
     private readonly identity: ConnectorIdentity,
   ) {}
 
-  async sendHeartbeat(): Promise<HeartbeatResult> {
+  async sendHeartbeat(oltDriverStatus?:string): Promise<HeartbeatResult> {
     const response = await fetch(
       new URL("/api/v1/connector/v1/heartbeat", this.apiUrl),
       {
@@ -75,14 +75,14 @@ export class ConnectorApiClient {
 body: JSON.stringify({
           connectorId: this.identity.connectorId,
           version: "0.2.1",
-          capabilities: [],
+          capabilities: [], oltDriverStatus,
         }),
         signal: AbortSignal.timeout(10_000),
       },
     );
 
     return response.ok
-      ? { accepted: true }
+      ? { ...(await parseJsonOrNull<{oltDrivers?:string[];heartbeatIntervalMs?:number}>(response)), accepted: true }
       : { accepted: false, status: response.status };
   }
 
