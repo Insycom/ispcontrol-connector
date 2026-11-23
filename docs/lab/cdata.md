@@ -1,6 +1,6 @@
 # Connector de laboratorio para C-Data
 
-Imagen Linux amd64: `ghcr.io/insycom/ispcontrol-connector:cdata-lab-v0.1.0-rc.1`. Esta edición conserva el proceso habitual del Connector e incluye el ejecutable local `ispcontrol-olt`. Las operaciones se invocan dentro del contenedor. La integración del panel y de la cola central queda para otra entrega.
+Imagen Linux amd64: `ghcr.io/insycom/ispcontrol-connector:cdata-lab-v0.1.0-rc.1`. Esta edición conserva el proceso habitual del Connector e incluye el ejecutable local `ispcontrol-olt`. Las operaciones se invocan dentro del contenedor. Esta sección describe la imagen histórica de laboratorio. La identificación desde el panel usa el repositorio firmado y el flujo documentado en [Crear un driver](../crear-driver-olt.md).
 
 Montar un archivo JSON de solo lectura en `/run/secrets/cdata-olt.json`, legible por el usuario que ejecutará el comando. Debe contener `Address` (host:puerto), `Username`, `Password` y `HostKeySHA256` (huella verificada de la clave pública SSH del equipo). La red del contenedor debe tener ruta de gestión a la OLT. Modelo y firmware soportados: C-Data FD1604S-B1, V3.3.65_250926.
 
