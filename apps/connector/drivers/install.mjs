@@ -16,7 +16,7 @@ async function download(url, limit) {
   return Buffer.concat(chunks);
 }
 
-async function install(name,version) {
+async function install(name,version,mode) {
   if (![name,version].every(x=>typeof x==="string" && /^[a-z0-9]+(?:[.-][a-z0-9]+)*$/.test(x))) throw Error("Uso: ispcontrol-driver NOMBRE VERSION");
   const arch={x64:"amd64",arm64:"arm64"}[process.arch];
   if (process.platform!=="linux" || !arch) throw Error("Arquitectura no soportada");
@@ -42,6 +42,7 @@ async function install(name,version) {
       await writeFile(temp,bytes,{flag:"wx",mode:0o755});
       await rename(temp,executable);
     }
+    if(mode==="--version-only")return;
     await symlink(version,link);
     await rename(link,join(directory,"current"));
     console.log(name+" "+version+" linux/"+arch+" instalado");

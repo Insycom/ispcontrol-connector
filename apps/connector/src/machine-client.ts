@@ -1,3 +1,4 @@
+import type {OltTask} from "./olt-discovery.js";
 import {
   saveIdentity,
   type ConnectorIdentity,
@@ -55,12 +56,12 @@ export class MachineClient {
     return identity;
   }
 
-  async heartbeat(metrics: Record<string, unknown>): Promise<{oltDrivers?:string[]}> {
+  async heartbeat(metrics: Record<string, unknown>): Promise<{oltTask?:OltTask;oltDrivers?:string[]}> {
     const response=await this.request("/connector-api/v1/heartbeat", {
       method: "POST",
       body: JSON.stringify(metrics),
     });
-    return await response.json() as {oltDrivers?:string[]};
+    return await response.json() as {oltTask?:OltTask;oltDrivers?:string[]};
   }
 
   async configuration(): Promise<MonitoredDeviceConfig[]> {

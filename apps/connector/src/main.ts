@@ -1,3 +1,4 @@
+import {OltDiscovery} from "./olt-discovery.js";
 import { DriverSelection } from "./driver-selection.js";
 import { ConnectorApiClient } from "./api-client.js";
 import { loadConfig } from "./config.js";
@@ -31,6 +32,7 @@ if (config.enrollmentToken && !identity.accessToken) {
 
 const connectionState = new ConnectionState();
 const healthServer = new HealthServer(config.healthPort, connectionState);
+const discovery=new OltDiscovery(config.dataDirectory);
 const drivers=new DriverSelection(config.dataDirectory);
 let heartbeat: Heartbeat | undefined;
 let commandWorker: CommandWorker | undefined;
@@ -55,7 +57,7 @@ if (identity.apiKey) {
   heartbeat = new Heartbeat(
     apiClient,
     connectionState,
-    config.heartbeatIntervalMs,drivers,
+    config.heartbeatIntervalMs,drivers,discovery,
   );
   commandWorker = new CommandWorker(apiClient, trustBundle);
   commandWorker.start();
@@ -80,7 +82,8 @@ if (identity.apiKey) {
   await monitoring.start();
   const sendHeartbeat = async () => {
     try {
-      const result=await machineClient.heartbeat({
+      const sent=discovery.request();
+      const result=await machineClient.heartbeat({...sent,
         oltDriverStatus:drivers.status,
         connectorVersion: CONNECTOR_VERSION,
         protocolVersion: 1,
@@ -94,6 +97,7 @@ if (identity.apiKey) {
         connectedRouters: 0,
         timestamp: new Date().toISOString(),
       });
+      discovery.accept(sent,result.oltTask);
       void drivers.reconcile(result.oltDrivers);
       connectionState.connected();
     } catch {
