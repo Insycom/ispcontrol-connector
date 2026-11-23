@@ -18,6 +18,7 @@ COPY apps/connector/entrypoint.sh /entrypoint.sh
 RUN chmod 755 /entrypoint.sh
 COPY apps/connector/drivers /opt/ispcontrol/drivers
 RUN chmod 755 /opt/ispcontrol/drivers/install.mjs && ln -s /opt/ispcontrol/drivers/install.mjs /usr/local/bin/ispcontrol-driver
+RUN chmod 755 /opt/ispcontrol/drivers/olt.sh && ln -s /opt/ispcontrol/drivers/olt.sh /usr/local/bin/ispcontrol-olt
 ENTRYPOINT ["/entrypoint.sh"]
 VOLUME ["/var/lib/ispcontrol"]
 EXPOSE 9080

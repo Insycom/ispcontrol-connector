@@ -26,9 +26,9 @@ export class DriverSelection {
         this.status="Instalando "+entry;
         await install("/usr/local/bin/ispcontrol-driver",entry.split("@"),{timeout:140000});
       }
-      const names=new Set(desired.map(entry=>entry.split("@")[0]));
+      const names=new Set(desired.map(entry=>entry.slice(0,entry.indexOf("@"))));
       for(const entry of previous){
-        if(spec.test(entry)&&!names.has(entry.split("@")[0]))await rm(join(root,entry.split("@")[0],"current"),{force:true});
+        if(spec.test(entry)&&!names.has(entry.slice(0,entry.indexOf("@"))))await rm(join(root,entry.slice(0,entry.indexOf("@")),"current"),{force:true});
       }
       await writeFile(file+".tmp",revision);
       await rename(file+".tmp",file);
