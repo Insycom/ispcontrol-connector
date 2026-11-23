@@ -1,4 +1,6 @@
-import {execFile} from "node:child_process";
+import {execFile,spawn} from "node:child_process";
+import {open,unlink} from "node:fs/promises";
+import {randomUUID} from "node:crypto";
 import {join} from "node:path";
 import {promisify} from "node:util";
 const install=promisify(execFile);
@@ -25,11 +27,22 @@ export class OltDiscovery {
       const [name,version]=task.driver.split("@") as [string,string];
       await install("/usr/local/bin/ispcontrol-driver",[name,version,"--version-only"],{timeout:140000});
       stage="IDENTIFY";
-      const output=await new Promise<string>((resolve,reject)=>{
-        const proc=execFile(join(this.directory,"drivers",name,version),["identify","--config","/dev/stdin"],{timeout:90000,maxBuffer:16384},(err,out)=>err?reject(err):resolve(out));
-        proc.stdin?.on("error",reject);
-        proc.stdin?.end(JSON.stringify(task.config));
-      });
+      const path=join("/dev/shm","ispcontrol-olt-"+randomUUID());
+      const descriptor=await open(path,"wx+",0o600);
+      let output:string;
+      try {
+        // An unlinked tmpfs descriptor can be reopened as /dev/stdin by native drivers.
+        await unlink(path);
+        const data=Buffer.from(JSON.stringify(task.config));
+        await descriptor.write(data,0,data.length,0);
+        output=await new Promise<string>((resolve,reject)=>{
+          const child=spawn(join(this.directory,"drivers",name,version),["identify","--config","/dev/stdin"],{stdio:[descriptor.fd,"pipe","ignore"],timeout:90000});
+          const chunks:Buffer[]=[];let size=0;
+          child.stdout!.on("data",(chunk:Buffer)=>{size+=chunk.length;if(size>16384){child.kill();return}chunks.push(chunk)});
+          child.once("error",reject);
+          child.once("close",code=>code===0 && size<=16384?resolve(Buffer.concat(chunks).toString()):reject(Error("identification failed")));
+        });
+      }finally{await descriptor.close()}
       this.completion=JSON.stringify({id:task.id,lease:task.lease,facts:JSON.parse(output)});
     }catch{this.completion=JSON.stringify({id:task.id,lease:task.lease,error:stage})}
   }
