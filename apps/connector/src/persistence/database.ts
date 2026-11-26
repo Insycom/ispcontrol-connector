@@ -215,18 +215,18 @@ export class ConnectorDatabase {
 
   markSamplesDelivered(sampleIds: string[]): void {
     const statement = this.db.prepare(
-      "UPDATE monitoring_sample_outbox SET delivered_at=? WHERE sample_id=?",
+      "UPDATE monitoring_sample_outbox SET delivered_at=? WHERE sample_id IN (SELECT value FROM json_each(?))",
     );
-    for (const id of sampleIds) statement.run(Date.now(), id);
+    if (sampleIds.length) statement.run(Date.now(), JSON.stringify(sampleIds));
   }
 
   markSamplesAttempted(sampleIds: string[]): void {
     const statement = this.db.prepare(`
       UPDATE monitoring_sample_outbox SET attempts=attempts+1,
       next_attempt_at=? + MIN(300000, (1 << MIN(attempts, 8)) * 1000)
-      WHERE sample_id=?
+      WHERE sample_id IN (SELECT value FROM json_each(?))
     `);
-    for (const id of sampleIds) statement.run(Date.now(), id);
+    if (sampleIds.length) statement.run(Date.now(), JSON.stringify(sampleIds));
   }
 
   purgeMonitoringData(now = new Date()): void {
@@ -273,18 +273,18 @@ export class ConnectorDatabase {
 
   markDelivered(eventIds: string[]): void {
     const statement = this.db.prepare(
-      "UPDATE outbox SET delivered_at=? WHERE event_id=?",
+      "UPDATE outbox SET delivered_at=? WHERE event_id IN (SELECT value FROM json_each(?))",
     );
-    for (const id of eventIds) statement.run(Date.now(), id);
+    if (eventIds.length) statement.run(Date.now(), JSON.stringify(eventIds));
   }
 
   markAttempt(eventIds: string[]): void {
     const statement = this.db.prepare(`
       UPDATE outbox SET attempts=attempts+1,
       next_attempt_at=? + MIN(300000, (1 << MIN(attempts, 8)) * 1000)
-      WHERE event_id=?
+      WHERE event_id IN (SELECT value FROM json_each(?))
     `);
-    for (const id of eventIds) statement.run(Date.now(), id);
+    if (eventIds.length) statement.run(Date.now(), JSON.stringify(eventIds));
   }
 
   pendingCount(): number {
