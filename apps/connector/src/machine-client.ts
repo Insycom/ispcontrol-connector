@@ -10,6 +10,10 @@ import type {
 } from "./persistence/database.js";
 
 export class MachineClient {
+  private refreshing: Promise<void> | undefined;
+  private retryRefreshAt = 0;
+  private refreshDelay = 1_000;
+
   constructor(
     private readonly apiUrl: URL,
     private readonly dataDirectory: string,
@@ -123,9 +127,11 @@ export class MachineClient {
   }
 
   private async request(path: string, init: RequestInit): Promise<Response> {
+    const sentToken = this.identity.accessToken;
     let response = await this.authorized(path, init);
     if (response.status === 401) {
-      await this.refresh();
+      await response.body?.cancel();
+      if (sentToken === this.identity.accessToken) await this.refreshSession();
       response = await this.authorized(path, init);
     }
     if (!response.ok) throw new Error(`${path} returned ${response.status}`);
@@ -145,6 +151,20 @@ export class MachineClient {
     });
   }
 
+  private async refreshSession(): Promise<void> {
+    if (this.refreshing) return this.refreshing;
+    if (Date.now() < this.retryRefreshAt) throw new Error("Machine session refresh will retry");
+    this.refreshing = this.refresh().then(() => {
+      this.refreshDelay = 1_000;
+      this.retryRefreshAt = 0;
+    }).catch((error: unknown) => {
+      this.retryRefreshAt = Date.now() + this.refreshDelay;
+      this.refreshDelay = Math.min(60_000, this.refreshDelay * 2);
+      throw error;
+    }).finally(() => { this.refreshing = undefined; });
+    return this.refreshing;
+  }
+
   private async refresh(): Promise<void> {
     const response = await fetch(
       joinApiUrl(this.apiUrl, "/connector-api/v1/auth/refresh"),
@@ -156,7 +176,7 @@ export class MachineClient {
         signal: AbortSignal.timeout(15_000),
       },
     );
-    if (!response.ok) throw new Error("Machine token refresh failed");
+    if (!response.ok) throw new Error(`Machine token refresh failed (HTTP ${response.status})`);
     const tokens = (await parseJsonOrThrow(response)) as {
       accessToken: string;
       refreshToken: string;
