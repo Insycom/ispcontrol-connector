@@ -1,3 +1,5 @@
+import type {OltDiscovery} from "./olt-discovery.js";
+import type { DriverSelection } from "./driver-selection.js";
 import type { ConnectorApiClient } from "./api-client.js";
 import type { ConnectionState } from "./connection-state.js";
 
@@ -9,6 +11,8 @@ export class Heartbeat {
     private readonly apiClient: ConnectorApiClient,
     private readonly connectionState: ConnectionState,
     intervalMs: number,
+    private readonly drivers?: DriverSelection,
+    private readonly discovery?:OltDiscovery,
   ) {
     this.currentIntervalMs = intervalMs;
   }
@@ -29,8 +33,11 @@ export class Heartbeat {
 
   private async send(): Promise<void> {
     try {
-      const result = await this.apiClient.sendHeartbeat();
+      const sent=this.discovery?.request()??{};
+      const result = await this.apiClient.sendHeartbeat(this.drivers?.status,sent);
       if (result.accepted) {
+        this.discovery?.accept(sent,result.oltTask);
+        void this.drivers?.reconcile(result.oltDrivers);
         if (result.heartbeatIntervalMs && result.heartbeatIntervalMs !== this.currentIntervalMs) {
           this.currentIntervalMs = result.heartbeatIntervalMs;
           this.schedule();

@@ -1,0 +1,38 @@
+name: Publish C-Data lab connector
+on:
+  push:
+    tags:
+      - 'cdata-lab-v*'
+permissions:
+  contents: read
+  packages: write
+jobs:
+  lab:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch pinned Linux amd64 lab driver
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for i in $(seq 1 40); do
+            if gh release download "$GITHUB_REF_NAME" --pattern ispcontrol-olt --clobber; then break; fi
+            sleep 5
+          done
+          sha256sum -c docs/lab/cdata-driver.sha256
+          chmod 755 ispcontrol-olt
+          if ./ispcontrol-olt invalid; then exit 1; fi
+      - name: Build connector and check packaged CLI
+        run: |
+          cp apps/connector/Dockerfile Dockerfile.lab
+          echo 'COPY --chmod=0755 ispcontrol-olt /usr/local/bin/ispcontrol-olt' >> Dockerfile.lab
+          image="ghcr.io/insycom/ispcontrol-connector:$GITHUB_REF_NAME"
+          docker build -f Dockerfile.lab -t "$image" .
+          output=$(docker run --rm --entrypoint ispcontrol-olt "$image" 2>&1 || true)
+          echo "$output" | grep -F 'operations: pending, authorize, optical, registration, status, reboot'
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - run: docker push "ghcr.io/insycom/ispcontrol-connector:$GITHUB_REF_NAME"

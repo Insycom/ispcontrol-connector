@@ -26,3 +26,7 @@ docs           Decisiones y documentación funcional
 La API nunca debería conectarse directamente a un router. Registra una operación
 y el connector la ejecuta de forma asíncrona. Esto permite reintentos, trazabilidad y
 evita que una caída de MikroTik bloquee el panel.
+
+## Desarrollo de drivers OLT
+
+[Crear, probar y publicar un driver mediante un PR](docs/crear-driver-olt.md).

@@ -33,8 +33,8 @@ export class MonitoringService {
 
   async start(): Promise<void> {
     await this.sync().catch(logError("configuration.sync"));
-    this.timer = setInterval(() => void this.checkDevices(), 1_000);
-    this.syncTimer = setInterval(() => void this.sync(), 60_000);
+    this.timer = setInterval(() => void this.checkDevices().catch(logError("monitoring.check")), 1_000);
+    this.syncTimer = setInterval(() => void this.sync().catch(logError("configuration.sync")), 60_000);
     this.outboxTimer = setInterval(() => void this.flushOutbox(), 5_000);
     this.sampleTimer = setInterval(() => void this.flushSamples(), 30_000);
     this.retentionTimer = setInterval(
